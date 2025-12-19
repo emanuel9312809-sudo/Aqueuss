@@ -1,4 +1,4 @@
-ï»¿import {
+import {
   Chart as ChartJS,
   RadialLinearScale,
   PointElement,
@@ -20,44 +20,40 @@ ChartJS.register(
 );
 
 export default function EnergyMap() {
-  const { transactions } = useTransaction();
+  const { transactions, buckets } = useTransaction();
 
-  // --- 3-Axis Logic ---
-  // Needs: Housing, Health, Food
-  // Growth: Education, Savings/Investments
-  // Experiences: Leisure, Shopping, Travel
-
-  const axes = {
-    'Necessidades': ['HabitaÃ§Ã£o', 'SaÃºde', 'Comida', 'Transporte'],
-    'Crescimento': ['EducaÃ§Ã£o', 'Investimentos', 'PoupanÃ§a'],
-    'ExperiÃªncias': ['Lazer', 'Compras', 'Viagem']
-  };
-
-  const scores = { 'Necessidades': 0, 'Crescimento': 0, 'ExperiÃªncias': 0 };
+  // Categories: 'survival', 'evolution', 'leisure'
+  const scores = { 'survival': 0, 'evolution': 0, 'leisure': 0 };
 
   transactions.forEach(tx => {
     if (tx.type !== 'EXPENSE') return;
     
-    if (axes['Necessidades'].includes(tx.category)) scores['Necessidades'] += tx.amount;
-    else if (axes['Crescimento'].includes(tx.category)) scores['Crescimento'] += tx.amount;
-    else scores['ExperiÃªncias'] += tx.amount; // Fallback to experiences
+    // Find bucket info
+    const bucket = buckets.find(b => b.id === tx.bucketId);
+    if (bucket && bucket.type) {
+        if(scores[bucket.type] !== undefined) {
+             scores[bucket.type] += tx.amount;
+        }
+    } else {
+        // Default Logic if Upgrade has not hit old buckets
+         scores['survival'] += tx.amount;
+    }
   });
 
-  // Calculate percentages (Mock Budget logic)
-  // Assume generic budgets for PoC: Needs 1500, Growth 500, Exp 500
-  const totals = { 'Necessidades': 1500, 'Crescimento': 500, 'ExperiÃªncias': 500 };
+  // Normalize for chart (relative balance)
+  const total = scores['survival'] + scores['evolution'] + scores['leisure'] || 1;
   
   const percentageData = [
-    Math.min((scores['Necessidades'] / totals['Necessidades']) * 100, 100),
-    Math.min((scores['Crescimento'] / totals['Crescimento']) * 100, 100),
-    Math.min((scores['ExperiÃªncias'] / totals['ExperiÃªncias']) * 100, 100),
+    (scores['survival'] / total) * 100,
+    (scores['evolution'] / total) * 100,
+    (scores['leisure'] / total) * 100,
   ];
 
   const data = {
-    labels: ['Necessidades (Base)', 'Crescimento (Futuro)', 'ExperiÃªncias (Alma)'],
+    labels: ['Sobrevivência', 'Evolução', 'Lazer'],
     datasets: [
       {
-        label: 'EquilÃ­brio Atual (%)',
+        label: 'Distribuição (%)',
         data: percentageData,
         backgroundColor: 'rgba(0, 229, 255, 0.2)',
         borderColor: '#00E5FF',
@@ -76,7 +72,7 @@ export default function EnergyMap() {
         pointLabels: { color: '#cccc', font: { size: 12, weight: 'bold' } },
         ticks: { display: false, backdropColor: 'transparent' },
         suggestedMin: 0,
-        suggestedMax: 100,
+        suggestedMax: 60, // Better scale visualization
       },
     },
     plugins: {
@@ -85,17 +81,18 @@ export default function EnergyMap() {
   };
 
   // AI Suggestion Logic
-  const expScore = percentageData[2]; // Experiences
-  const growthScore = percentageData[1]; // Growth
-  
-  let suggestion = "O seu equilÃ­brio financeiro parece saudÃ¡vel.";
-  if (expScore > 40 && growthScore < 20) {
-    suggestion = "ðŸ’¡ Dica da IA: O eixo de ExperiÃªncias estÃ¡ alto. Tente realocar 5% para Crescimento no prÃ³ximo mÃªs.";
+  let suggestion = 'Seu equilíbrio de vida está interessante.';
+  if (percentageData[2] < 15) { // Low Leisure
+      suggestion = '?? Cuidado com o Burnout! Tente investir mais em Lazer/Experiências.';
+  } else if (percentageData[1] < 10) { // Low Evolution
+      suggestion = '?? Que tal focar em Evolução? Cursos e investimentos ajudam no futuro.';
+  } else if (percentageData[0] > 70) { // High Survival
+      suggestion = '?? Modo Sobrevivência Alto. Tente reduzir custos fixos se possível.';
   }
 
   return (
-    <div className="glass-panel" style={{ marginTop: '1rem', width: '100%' }}>
-      <h3 className="title" style={{ fontSize: '1rem' }}>Mapa de Energia Financeira</h3>
+    <div className='glass-panel' style={{ marginTop: '1rem', width: '100%' }}>
+      <h3 className='title' style={{ fontSize: '1rem' }}>Mapa de Energia (Nova Era)</h3>
       
       <div style={{ height: '280px', display: 'flex', justifyContent: 'center', margin: '1rem 0' }}>
         <Radar data={data} options={options} />

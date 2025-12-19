@@ -1,83 +1,77 @@
-﻿import { Trophy, Medal, Star, TrendingUp, CheckCircle } from 'lucide-react';
+import { Trophy, Medal, Star, TrendingUp, CheckCircle, Zap } from 'lucide-react';
 import { useTransaction } from '../context/TransactionContext';
 
 export default function GamificationPage() {
-  const { transactions, buckets } = useTransaction();
+  const { userStats, missions } = useTransaction(); // Use new Gamification Stats
 
-  // --- Logic for Generic "Smart Bucket" Bonus ---
-  // Check if ALL buckets are within their target % of total income (or expense)
-  
-  // 1. Calculate Total Expenses and Income
-  const totalExpense = transactions
-    .filter(tx => tx.type === 'EXPENSE')
-    .reduce((acc, tx) => acc + tx.amount, 0);
-
-  // 2. Check each bucket
-  let allBucketsHealthy = true;
-  let failingBucket = null;
-
-  if (totalExpense > 0) {
-      buckets.forEach(bucket => {
-          const bucketSpend = transactions
-            .filter(tx => tx.bucketId === bucket.id && tx.type === 'EXPENSE')
-            .reduce((acc, tx) => acc + tx.amount, 0);
-          
-          const currentPercent = (bucketSpend / totalExpense) * 100;
-          
-          // Allow small margin of error (+5%)
-          if (currentPercent > (bucket.target + 5)) {
-              allBucketsHealthy = false;
-              failingBucket = bucket.name;
-          }
-      });
-  } else {
-      allBucketsHealthy = false; // No data yet
-  }
-
-  const bonusUnlocked = allBucketsHealthy && totalExpense > 0;
-  
-  // --- Badge Logic ---
+  // Logic for Badges (Static for now, can be linked to stats later)
   const badges = [
-    { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'Criou a conta Aequus' },
-    { id: 2, name: 'Equilibrista', icon: <Trophy size={24} />, unlocked: bonusUnlocked, desc: 'Respeitou todos os baldes' },
-    { id: 3, name: 'Focado', icon: <TrendingUp size={24} />, unlocked: false, desc: 'Atingiu uma Meta' },
-    { id: 4, name: 'Investidor', icon: <Medal size={24} />, unlocked: false, desc: 'Investiu 100€' },
+    { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'Come�ou a jornada' },
+    { id: 2, name: 'Poupador', icon: <PiggyBankIcon />, unlocked: userStats.level >= 2, desc: 'Atingiu o N�vel 2' },
+    { id: 3, name: 'Mestre', icon: <Trophy size={24} />, unlocked: userStats.level >= 5, desc: 'Atingiu o N�vel 5' },
   ];
 
+  const progressPercent = Math.min((userStats.xp / userStats.nextLevel) * 100, 100);
+
   return (
-    <div className="glass-panel" style={{ width: '100%', padding: '1.5rem' }}>
+    <div className='glass-panel' style={{ width: '100%', padding: '1.5rem', marginBottom: '80px' }}>
+      
+      {/* Header / Level Display */}
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#FFD700', marginBottom: '0.5rem' }}>Aequus Quest</h2>
-        <p style={{ color: '#ccc' }}>Complete missões e ganhe recompensas financeiras.</p>
+        
+        <div style={{ 
+            width: '100px', height: '100px', borderRadius: '50%', 
+            background: 'linear-gradient(135deg, #FFD700 0%, #FFAA00 100%)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 1rem auto', boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
+            color: '#000'
+        }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>N�VEL</span>
+            <span style={{ fontSize: '3rem', fontWeight: 'bold', lineHeight: '1' }}>{userStats.level}</span>
+        </div>
+
+        {/* XP Bar */}
+        <div style={{ background: 'rgba(255,255,255,0.1)', height: '10px', borderRadius: '5px', overflow: 'hidden', maxWidth: '300px', margin: '0 auto' }}>
+            <div style={{ 
+                width: ${progressPercent}%, 
+                height: '100%', 
+                background: '#00E5FF',
+                transition: 'width 0.5s ease'
+            }}></div>
+        </div>
+        <div style={{ fontSize: '0.8rem', color: '#aaa', marginTop: '5px' }}>
+            XP: {userStats.xp} / {userStats.nextLevel}
+        </div>
       </div>
 
-      {/* Bonus Section */}
-      <div style={{ 
-        background: 'rgba(0, 229, 255, 0.1)', 
-        border: '1px solid #00E5FF', 
-        borderRadius: '12px', 
-        padding: '1rem',
-        marginBottom: '2rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        <div>
-          <h3 style={{ color: '#00E5FF', margin: 0 }}>Bónus de Disciplina</h3>
-          <p style={{ fontSize: '0.8rem', color: '#a0a0a0', margin: '0.5rem 0' }}>Mantenha todos os baldes na meta.</p>
-          <div style={{ fontSize: '0.9rem', color: bonusUnlocked ? '#4BC0C0' : '#FF2975' }}>
-            {bonusUnlocked ? '✅ Tudo em ordem' : `⚠️ Excesso em: ${failingBucket || 'Dados insuficientes'}`}
-          </div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '2rem', display: 'block' }}>{bonusUnlocked ? '🔓' : '🔒'}</span>
-          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#fff' }}>+5.00 €</span>
-        </div>
+      {/* Active Missions */}
+      <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Zap size={20} color='#00E5FF' /> Miss�es Ativas
+      </h3>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+          {missions.map(mission => (
+              <div key={mission.id} style={{ 
+                  background: 'rgba(255,255,255,0.05)', 
+                  padding: '1rem', 
+                  borderRadius: '12px',
+                  border: mission.completed ? '1px solid #4BC0C0' : '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+              }}>
+                  <div style={{ opacity: mission.completed ? 0.5 : 1 }}>
+                      <div style={{ fontWeight: 'bold', color: '#fff' }}>{mission.desc}</div>
+                      <div style={{ fontSize: '0.8rem', color: '#00E5FF' }}>+{mission.xp} XP</div>
+                  </div>
+                  <div>
+                      {mission.completed ? <CheckCircle color='#4BC0C0' /> : <span style={{ fontSize: '1.5rem' }}>?</span>}
+                  </div>
+              </div>
+          ))}
       </div>
 
       {/* Badges Grid */}
       <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Conquistas</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
         {badges.map(badge => (
           <div key={badge.id} style={{ 
             background: 'rgba(255,255,255,0.05)', 
@@ -91,11 +85,19 @@ export default function GamificationPage() {
             border: badge.unlocked ? '1px solid rgba(255, 215, 0, 0.3)' : 'none'
           }}>
             <div style={{ color: badge.unlocked ? '#FFD700' : '#666' }}>{badge.icon}</div>
-            <div style={{ fontWeight: 'bold', fontSize: '0.9rem', textAlign: 'center' }}>{badge.name}</div>
-            <div style={{ fontSize: '0.7rem', color: '#888', textAlign: 'center' }}>{badge.desc}</div>
+            <div style={{ fontWeight: 'bold', fontSize: '0.8rem', textAlign: 'center' }}>{badge.name}</div>
           </div>
         ))}
       </div>
     </div>
   );
 }
+
+// Icon Helper
+const PiggyBankIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+        <path d='M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2.5V5z'></path>
+        <path d='M2 9v1c0 1.1.9 2 2 2h1'></path>
+        <path d='M16 11h.01'></path>
+    </svg>
+);
