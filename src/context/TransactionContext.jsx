@@ -5,14 +5,14 @@ const TransactionContext = createContext();
 export const useTransaction = () => useContext(TransactionContext);
 
 const DEFAULT_BUCKETS = [
-  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '??', type: 'survival' },
-  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: '??', type: 'leisure' },
-  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: '??', type: 'evolution' },
+  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: 'ðŸ ', type: 'survival' },
+  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: 'ðŸŽ‰', type: 'leisure' },
+  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: 'ðŸ“ˆ', type: 'evolution' },
 ];
 
 const DEFAULT_ACCOUNTS = [
   { id: 'bank-a', name: 'Banco A', type: 'bank', balance: 0 },
-  { id: 'cash', name: 'Carteira Física', type: 'cash', balance: 0 },
+  { id: 'cash', name: 'Carteira FÃ­sica', type: 'cash', balance: 0 },
 ];
 
 export const TransactionProvider = ({ children }) => {
@@ -22,7 +22,7 @@ export const TransactionProvider = ({ children }) => {
   const [accounts, setAccounts] = useState(DEFAULT_ACCOUNTS);
   const [fundSettings, setFundSettings] = useState({
     active: false,
-    name: 'Fundo Automático',
+    name: 'Fundo AutomÃ¡tico',
     percentage: 10,
     balance: 0 
   });
@@ -31,8 +31,8 @@ export const TransactionProvider = ({ children }) => {
   // Gamification State
   const [userStats, setUserStats] = useState({ level: 1, xp: 0, nextLevel: 100 });
   const [missions, setMissions] = useState([
-    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 Transação', xp: 50, completed: false },
-    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10€ (Fundo)', xp: 200, completed: false }, 
+    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 TransaÃ§Ã£o', xp: 50, completed: false },
+    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10â‚¬ (Fundo)', xp: 200, completed: false }, 
   ]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const TransactionProvider = ({ children }) => {
               newLevel += 1;
               newXP = newXP - newNext;
               newNext = Math.floor(newNext * 1.5); 
-              alert(?? PARABÉNS! Você subiu para o Nível !);
+              alert("ðŸŽ‰ PARABÃ‰NS! VocÃª subiu para o NÃ­vel " + newLevel + "!");
               checkSmartReward();
           }
           return { level: newLevel, xp: newXP, nextLevel: newNext };
@@ -87,11 +87,11 @@ export const TransactionProvider = ({ children }) => {
       const REWARD_AMOUNT = 20; 
 
       if (available >= REWARD_AMOUNT) {
-          if (window.confirm(?? Recompensa de Nível Disponível!\n\nVocê tem saldo livre. Deseja separar € para LAZER agora?)) {
-              alert(? € foram marcados para o seu Lazer! Aproveite!);
+          if (window.confirm("ðŸŽ Recompensa de NÃ­vel DisponÃ­vel! Deseja separar 20â‚¬ para LAZER agora?")) {
+              alert("âœ… 20â‚¬ foram marcados para o seu Lazer! Aproveite!");
           }
       } else {
-          alert('?? Nível Subiu! (Mas sem saldo livre para recompensa hoje.)');
+          alert("âš ï¸ NÃ­vel Subiu! (Mas sem saldo livre para recompensa hoje.)");
       }
   };
 
@@ -114,7 +114,7 @@ export const TransactionProvider = ({ children }) => {
             amount: transaction.amount,
             day: new Date().getDate(),
             accountId: transaction.accountId,
-            lastProcessed: ${new Date().getFullYear()}-
+            lastProcessed: new Date().getFullYear() + '-' + new Date().getMonth()
         };
         setRecurringItems(prev => [...prev, recurringItem]);
     }
@@ -124,7 +124,7 @@ export const TransactionProvider = ({ children }) => {
     if (newTx.type === 'INCOME' && fundSettings.active) {
         const deduction = (newTx.amount * fundSettings.percentage) / 100;
         const netAmount = newTx.amount - deduction;
-        const incomeTx = { ...newTx, amount: netAmount, note: (newTx.note || '') +  (Fundo %) };
+        const incomeTx = { ...newTx, amount: netAmount, note: (newTx.note || '') + ' (Fundo ' + fundSettings.percentage + '%)' };
         setFundSettings(prev => ({ ...prev, balance: prev.balance + deduction }));
         setTransactions(prev => [incomeTx, ...prev]);
         updateAccountBalance(incomeTx.accountId, netAmount, 'INCOME');
@@ -167,7 +167,7 @@ export const TransactionProvider = ({ children }) => {
           name, 
           target: Number(target), 
           color: '#' + Math.floor(Math.random()*16777215).toString(16), 
-          icon: '??',
+          icon: 'ðŸ“¦',
           type 
       };
       setBuckets(prev => [...prev, newBucket]);

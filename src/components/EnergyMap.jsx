@@ -50,10 +50,10 @@ export default function EnergyMap() {
   ];
 
   const data = {
-    labels: ['Sobrevivência', 'Evolução', 'Lazer'],
+    labels: ['SobrevivÃªncia', 'EvoluÃ§Ã£o', 'Lazer'],
     datasets: [
       {
-        label: 'Distribuição (%)',
+        label: 'DistribuiÃ§Ã£o (%)',
         data: percentageData,
         backgroundColor: 'rgba(0, 229, 255, 0.2)',
         borderColor: '#00E5FF',
@@ -72,7 +72,7 @@ export default function EnergyMap() {
         pointLabels: { color: '#cccc', font: { size: 12, weight: 'bold' } },
         ticks: { display: false, backdropColor: 'transparent' },
         suggestedMin: 0,
-        suggestedMax: 60, // Better scale visualization
+        suggestedMax: 60, 
       },
     },
     plugins: {
@@ -81,18 +81,18 @@ export default function EnergyMap() {
   };
 
   // AI Suggestion Logic
-  let suggestion = 'Seu equilíbrio de vida está interessante.';
-  if (percentageData[2] < 15) { // Low Leisure
-      suggestion = '?? Cuidado com o Burnout! Tente investir mais em Lazer/Experiências.';
-  } else if (percentageData[1] < 10) { // Low Evolution
-      suggestion = '?? Que tal focar em Evolução? Cursos e investimentos ajudam no futuro.';
-  } else if (percentageData[0] > 70) { // High Survival
-      suggestion = '?? Modo Sobrevivência Alto. Tente reduzir custos fixos se possível.';
+  let suggestion = "Seu equilÃ­brio de vida estÃ¡ interessante.";
+  if (percentageData[2] < 15) { 
+      suggestion = "ðŸ’¡ Cuidado com o Burnout! Tente investir mais em Lazer/ExperiÃªncias.";
+  } else if (percentageData[1] < 10) { 
+      suggestion = "ðŸ’¡ Que tal focar em EvoluÃ§Ã£o? Cursos e investimentos ajudam no futuro.";
+  } else if (percentageData[0] > 70) { 
+      suggestion = "ðŸ’¡ Modo SobrevivÃªncia Alto. Tente reduzir custos fixos se possÃ­vel.";
   }
 
   return (
-    <div className='glass-panel' style={{ marginTop: '1rem', width: '100%' }}>
-      <h3 className='title' style={{ fontSize: '1rem' }}>Mapa de Energia (Nova Era)</h3>
+    <div className="glass-panel" style={{ marginTop: '1rem', width: '100%' }}>
+      <h3 className="title" style={{ fontSize: '1rem' }}>Mapa de Energia (Nova Era)</h3>
       
       <div style={{ height: '280px', display: 'flex', justifyContent: 'center', margin: '1rem 0' }}>
         <Radar data={data} options={options} />
