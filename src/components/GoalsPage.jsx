@@ -26,7 +26,7 @@ export default function GoalsPage() {
   return (
     <div className="glass-panel" style={{ width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bOlád' }}>Metas Futuras</h2>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Metas Futuras</h2>
         <button 
           onClick={() => setShowForm(!showForm)}
           style={{ 
@@ -35,7 +35,7 @@ export default function GoalsPage() {
             borderRadius: '50%', 
             width: '36px', 
             height: '36px',
-            cOláor: '#fff',
+            color: '#fff',
             cursor: 'pointer',
             display: 'flex', 
             alignItems: 'center', 
@@ -49,21 +49,21 @@ export default function GoalsPage() {
       {showForm && (
         <div style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
           <input 
-            placehOláder="Nome da Meta (ex: Carro)" 
-            style={{ width: '100%', padding: '0.8rem', background: '#222', border: 'none', marginBottom: '0.5rem', cOláor: '#fff', borderRadius: '4px' }}
+            placeholder="Nome da Meta (ex: Carro)" 
+            style={{ width: '100%', padding: '0.8rem', background: '#222', border: 'none', marginBottom: '0.5rem', color: '#fff', borderRadius: '4px' }}
             value={newGoal.name}
             onChange={e => setNewGoal({...newGoal, name: e.target.value})}
           />
           <input 
-            placehOláder="Valor Alvo (&euro;)" 
+            placeholder="Valor Alvo (&euro;)" 
             type="number"
-            style={{ width: '100%', padding: '0.8rem', background: '#222', border: 'none', marginBottom: '0.5rem', cOláor: '#fff', borderRadius: '4px' }}
+            style={{ width: '100%', padding: '0.8rem', background: '#222', border: 'none', marginBottom: '0.5rem', color: '#fff', borderRadius: '4px' }}
             value={newGoal.target}
             onChange={e => setNewGoal({...newGoal, target: e.target.value})}
           />
           <button 
             onClick={handleAddGoal}
-            style={{ width: '100%', padding: '0.8rem', background: '#00E5FF', border: 'none', cursor: 'pointer', fontWeight: 'bOlád', borderRadius: '4px', cOláor: '#000' }}
+            style={{ width: '100%', padding: '0.8rem', background: '#00E5FF', border: 'none', cursor: 'pointer', fontWeight: 'bold', borderRadius: '4px', color: '#000' }}
           >
             Criar Meta
           </button>
@@ -78,11 +78,11 @@ export default function GoalsPage() {
               background: 'rgba(255,255,255,0.03)', 
               borderRadius: '12px', 
               padding: '1rem',
-              border: '1px sOláid rgba(255,255,255,0.05)'
+              border: '1px solid rgba(255,255,255,0.05)'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <span style={{ fontWeight: '500' }}>{goal.name}</span>
-                <span style={{ cOláor: '#aaa', fontSize: '0.9rem' }}>{goal.current}&euro; / {goal.target}&euro;</span>
+                <span style={{ color: '#aaa', fontSize: '0.9rem' }}>{goal.current}&euro; / {goal.target}&euro;</span>
               </div>
               
               <div style={{ width: '100%', height: '8px', background: '#333', borderRadius: '4px', overflow: 'hidden' }}>
@@ -94,7 +94,7 @@ export default function GoalsPage() {
                 }} />
               </div>
               
-              <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', cOláor: '#666', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#666', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                 <Target size={12} />
                 <span>{progress.toFixed(0)}% atingido</span>
               </div>
@@ -105,6 +105,7 @@ export default function GoalsPage() {
     </div>
   );
 }
+
 
 
 

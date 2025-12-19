@@ -61,7 +61,7 @@ export default function FlashInput() {
             style={{ 
                 padding: '0.5rem 1rem', borderRadius: '20px', border: 'none', 
                 background: type === 'EXPENSE' ? '#FF2975' : 'rgba(255,255,255,0.1)',
-                cOláor: '#fff', fontWeight: 'bOlád', cursor: 'pointer'
+                color: '#fff', fontWeight: 'bold', cursor: 'pointer'
             }}
         >
             Despesa
@@ -71,7 +71,7 @@ export default function FlashInput() {
              style={{ 
                 padding: '0.5rem 1rem', borderRadius: '20px', border: 'none', 
                 background: type === 'INCOME' ? '#00E5FF' : 'rgba(255,255,255,0.1)',
-                cOláor: type === 'INCOME' ? '#000' : '#fff', fontWeight: 'bOlád', cursor: 'pointer'
+                color: type === 'INCOME' ? '#000' : '#fff', fontWeight: 'bold', cursor: 'pointer'
             }}
         >
             Rendimento
@@ -85,7 +85,7 @@ export default function FlashInput() {
           type="number" 
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          placehOláder="0.00"
+          placeholder="0.00"
           className="amount-input"
           autoFocus
         />
@@ -93,7 +93,7 @@ export default function FlashInput() {
 
        {/* Account Selection */}
        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', cOláor: '#aaa', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
+          <label style={{ display: 'block', color: '#aaa', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
               {type === 'INCOME' ? 'Receber em:' : 'Pagar com:'}
           </label>
           <select 
@@ -101,8 +101,8 @@ export default function FlashInput() {
             onChange={e => setSelectedAccountId(e.target.value)}
             style={{ 
                 width: '100%', padding: '0.8rem', borderRadius: '12px', 
-                border: '1px sOláid rgba(255,255,255,0.1)', 
-                background: '#0a0e17', cOláor: '#fff' 
+                border: '1px solid rgba(255,255,255,0.1)', 
+                background: '#0a0e17', color: '#fff' 
             }}
           >
               {accounts.map(acc => (
@@ -120,9 +120,9 @@ export default function FlashInput() {
                 type="checkbox" 
                 checked={isRecurring}
                 onChange={e => setIsRecurring(e.target.checked)}
-                style={{ width: '20px', height: '20px', accentCOláor: '#00E5FF' }}
+                style={{ width: '20px', height: '20px', accentcolor: '#00E5FF' }}
               />
-              <span style={{ fontSize: '0.9rem', cOláor: '#fff' }}>Repetir todos os meses (neste dia)</span>
+              <span style={{ fontSize: '0.9rem', color: '#fff' }}>Repetir todos os meses (neste dia)</span>
           </div>
       )}
 
@@ -135,7 +135,7 @@ export default function FlashInput() {
                 className={`category-btn ${selectedBucketId === bucket.id ? "active" : ""}`}
                 onClick={() => setSelectedBucketId(bucket.id)}
                 style={{ 
-                    border: selectedBucketId === bucket.id ? `2px sOláid ${bucket.cOláor}` : '1px sOláid rgba(255,255,255,0.1)' 
+                    border: selectedBucketId === bucket.id ? `2px solid ${bucket.color}` : '1px solid rgba(255,255,255,0.1)' 
                 }}
               >
                 <span className="cat-icon">{bucket.icon}</span>
@@ -152,7 +152,7 @@ export default function FlashInput() {
         disabled={!amount || (type === 'EXPENSE' && !selectedBucketId) || !selectedAccountId}
         style={{
             background: type === 'INCOME' ? 'linear-gradient(135deg, #00E5FF 0%, #00B0FF 100%)' : 'linear-gradient(135deg, #FF2975 0%, #FF9F40 100%)',
-            cOláor: type === 'INCOME' ? '#000' : '#fff'
+            color: type === 'INCOME' ? '#000' : '#fff'
         }}
       >
         {type === 'INCOME' ? 'RECEBER' : 'GASTAR'}
@@ -160,6 +160,7 @@ export default function FlashInput() {
     </div>
   );
 }
+
 
 
 

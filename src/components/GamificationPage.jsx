@@ -96,3 +96,4 @@ export default function GamificationPage() {
     </div>
   );
 }
+

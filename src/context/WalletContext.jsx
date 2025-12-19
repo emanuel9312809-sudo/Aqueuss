@@ -141,3 +141,4 @@ export const WalletProvider = ({ children }) => {
     </WalletContext.Provider>
   );
 };
+

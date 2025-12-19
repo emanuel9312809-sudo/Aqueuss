@@ -43,7 +43,7 @@ export default function Dashboard() {
     datasets: [
       {
         data: Object.values(categoryTotals),
-        backgroundCOláor: [
+        backgroundcolor: [
           '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
         ],
         borderWidth: 0,
@@ -55,26 +55,26 @@ export default function Dashboard() {
     plugins: {
       legend: {
         position: 'right',
-        labels: { cOláor: '#fff', boxWidth: 10 }
+        labels: { color: '#fff', boxWidth: 10 }
       }
     }
   };
 
   return (
     <div className="glass-panel" style={{ width: '100%' }}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bOlád', marginBottom: '0.5rem' }}>
-        {balance.tOláocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        {balance.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
       </h2>
-      <p style={{ cOláor: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Saldo Total Estimado <span style={{ fontSize: '0.7rem', cOláor: '#00E5FF', border: '1px sOláid #00E5FF', padding: '1px 4px', borderRadius: '4px' }}>LIVE ?</span></p>
+      <p style={{ color: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Saldo Total Estimado <span style={{ fontSize: '0.7rem', color: '#00E5FF', border: '1px solid #00E5FF', padding: '1px 4px', borderRadius: '4px' }}>LIVE ?</span></p>
       
       <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
         <div style={{ flex: 1 }}>
-          <p style={{ cOláor: '#00E5FF' }}>+{income.toFixed(0)}&euro;</p>
-          <span style={{ fontSize: '0.7rem', cOláor: '#666' }}>Entradas (Mês)</span>
+          <p style={{ color: '#00E5FF' }}>+{income.toFixed(0)}&euro;</p>
+          <span style={{ fontSize: '0.7rem', color: '#666' }}>Entradas (Mês)</span>
         </div>
         <div style={{ flex: 1 }}>
-          <p style={{ cOláor: '#FF2975' }}>-{expenses.toFixed(0)}&euro;</p>
-          <span style={{ fontSize: '0.7rem', cOláor: '#666' }}>Saídas (Mês)</span>
+          <p style={{ color: '#FF2975' }}>-{expenses.toFixed(0)}&euro;</p>
+          <span style={{ fontSize: '0.7rem', color: '#666' }}>Saídas (Mês)</span>
         </div>
       </div>
 
@@ -84,6 +84,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 
 

@@ -22,8 +22,8 @@ ChartJS.register(
 export default function EnergyMap() {
   const { transactions, addTransaction, deleteTransaction, buckets, addBucket, removeBucket, updateBucket, accounts, addAccount, removeAccount, fundSettings, setFundSettings, recurringItems } = useWallet();
 
-  // Categories: 'survival', 'evOláution', 'leisure'
-  const scores = { 'survival': 0, 'evOláution': 0, 'leisure': 0 };
+  // Categories: 'survival', 'evolution', 'leisure'
+  const scores = { 'survival': 0, 'evolution': 0, 'leisure': 0 };
 
   transactions.forEach(tx => {
     if (tx.type !== 'EXPENSE') return;
@@ -41,11 +41,11 @@ export default function EnergyMap() {
   });
 
   // Normalize for chart (relative balance)
-  const total = scores['survival'] + scores['evOláution'] + scores['leisure'] || 1;
+  const total = scores['survival'] + scores['evolution'] + scores['leisure'] || 1;
   
   const percentageData = [
     (scores['survival'] / total) * 100,
-    (scores['evOláution'] / total) * 100,
+    (scores['evolution'] / total) * 100,
     (scores['leisure'] / total) * 100,
   ];
 
@@ -55,11 +55,11 @@ export default function EnergyMap() {
       {
         label: 'DistribuiÃ§Ã£o (%)',
         data: percentageData,
-        backgroundCOláor: 'rgba(0, 229, 255, 0.2)',
-        borderCOláor: '#00E5FF',
+        backgroundcolor: 'rgba(0, 229, 255, 0.2)',
+        bordercolor: '#00E5FF',
         borderWidth: 2,
-        pointBackgroundCOláor: '#fff',
-        pointBorderCOláor: '#00E5FF',
+        pointBackgroundcolor: '#fff',
+        pointBordercolor: '#00E5FF',
       },
     ],
   };
@@ -67,10 +67,10 @@ export default function EnergyMap() {
   const options = {
     scales: {
       r: {
-        angleLines: { cOláor: 'rgba(255, 255, 255, 0.1)' },
-        grid: { cOláor: 'rgba(255, 255, 255, 0.1)' },
-        pointLabels: { cOláor: '#cccc', font: { size: 12, weight: 'bOlád' } },
-        ticks: { display: false, backdropCOláor: 'transparent' },
+        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+        pointLabels: { color: '#cccc', font: { size: 12, weight: 'bold' } },
+        ticks: { display: false, backdropcolor: 'transparent' },
         suggestedMin: 0,
         suggestedMax: 60, 
       },
@@ -103,14 +103,15 @@ export default function EnergyMap() {
         borderRadius: '8px', 
         padding: '0.8rem', 
         fontSize: '0.9rem', 
-        cOláor: '#ccc',
-        borderLeft: '4px sOláid #00E5FF'
+        color: '#ccc',
+        borderLeft: '4px solid #00E5FF'
       }}>
         {suggestion}
       </div>
     </div>
   );
 }
+
 
 
 

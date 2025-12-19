@@ -96,3 +96,4 @@ const LevelUpModal = ({ isOpen, level, onClose }) => {
 };
 
 export default LevelUpModal;
+

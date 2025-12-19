@@ -73,3 +73,4 @@ export const GamificationProvider = ({ children }) => {
     </GamificationContext.Provider>
   );
 };
+
