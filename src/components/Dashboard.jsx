@@ -65,7 +65,7 @@ export default function Dashboard() {
       <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
         {balance.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
       </h2>
-      <p style={{ color: '#a0a0a0', fontSize: '0.9rem' }}>Saldo Total Estimado</p>
+      <p style={{ color: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Saldo Total Estimado <span style={{ fontSize: '0.7rem', color: '#00E5FF', border: '1px solid #00E5FF', padding: '1px 4px', borderRadius: '4px' }}>LIVE ✅</span></p>
       
       <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
         <div style={{ flex: 1 }}>
