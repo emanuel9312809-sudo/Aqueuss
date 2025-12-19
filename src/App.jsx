@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { TransactionProvider } from './context/TransactionContext';
 
@@ -10,36 +11,84 @@ import GoalsPage from './components/GoalsPage';
 import SettingsPage from './components/SettingsPage';
 import EnergyMap from './components/EnergyMap';
 import GamificationPage from './components/GamificationPage';
-import AccountsPage from './components/AccountsPage'; // [NEW]
+import AccountsPage from './components/AccountsPage';
 
 // Icons
 import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet } from 'lucide-react';
 
-const AppContent = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  
-  // Custom Tab Button
-  const NavButton = ({ id, icon: Icon, label }) => (
-    <button
-      onClick={() => setActiveTab(id)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'none',
-        border: 'none',
-        color: activeTab === id ? '#00E5FF' : '#666',
-        transition: 'color 0.3s',
-        cursor: 'pointer',
-        flex: 1
-      }}
-    >
-      <Icon size={24} style={{ marginBottom: '4px' }}/>
-      <span style={{ fontSize: '0.7rem', fontWeight: activeTab === id ? 'bold' : 'normal' }}>{label}</span>
-    </button>
-  );
+const Navigation = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    // Helper to determine if a tab is active (matches current path)
+    const isActive = (path) => {
+        if (path === '/' && location.pathname === '/') return true;
+        if (path !== '/' && location.pathname.startsWith(path)) return true;
+        return false;
+    };
 
+    const NavButton = ({ path, icon: Icon, label }) => (
+        <button
+            onClick={() => navigate(path)}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'none',
+                border: 'none',
+                color: isActive(path) ? '#00E5FF' : '#666',
+                transition: 'color 0.3s',
+                cursor: 'pointer',
+                flex: 1
+            }}
+        >
+            <Icon size={24} style={{ marginBottom: '4px' }}/>
+            <span style={{ fontSize: '0.7rem', fontWeight: isActive(path) ? 'bold' : 'normal' }}>{label}</span>
+        </button>
+    );
+
+    return (
+        <div className='glass-panel' style={{ 
+            position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', 
+            width: '95%', maxWidth: '400px', padding: '0.8rem 1rem', 
+            borderRadius: '24px', zIndex: 1000,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+            border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <NavButton path='/' icon={LayoutDashboard} label='Inicio' />
+                <NavButton path='/accounts' icon={Wallet} label='Contas' />
+                
+                {/* Floating Action Button for Add */}
+                <button 
+                    onClick={() => navigate('/add')}
+                    style={{
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, var(--accent-primary) 0%, #00B0FF 100%)',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#000',
+                        boxShadow: '0 0 15px rgba(0, 229, 255, 0.4)',
+                        transform: 'translateY(-10px)',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <PlusCircle size={28} />
+                </button>
+                
+                <NavButton path='/quest' icon={Trophy} label='Missões' />
+                <NavButton path='/settings' icon={Settings} label='Ajustes' />
+            </div>
+        </div>
+    );
+};
+
+const AppContent = () => {
   return (
     <div className='container' style={{ paddingBottom: '80px', position: 'relative' }}>
       
@@ -67,7 +116,7 @@ const AppContent = () => {
                 borderRadius: '4px',
                 border: '1px solid rgba(0, 229, 255, 0.3)'
             }}>
-                v1.2.1
+                v1.3.0
             </span>
           </div>
         </div>
@@ -79,59 +128,25 @@ const AppContent = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Content Area - Routes */}
       <div className='content-area'>
-        {activeTab === 'dashboard' && (
-            <>
-                <Dashboard />
-                <EnergyMap />
-                <TransactionList />
-            </>
-        )}
-        {activeTab === 'add' && <FlashInput />}
-        {activeTab === 'goals' && <GoalsPage />}
-        {activeTab === 'quest' && <GamificationPage />}
-        {activeTab === 'accounts' && <AccountsPage />}
-        {activeTab === 'settings' && <SettingsPage />}
+        <Routes>
+            <Route path="/" element={
+                <>
+                    <Dashboard />
+                    <EnergyMap />
+                    <TransactionList />
+                </>
+            } />
+            <Route path="/add" element={<FlashInput />} />
+            <Route path="/goals" element={<GoalsPage />} />
+            <Route path="/quest" element={<GamificationPage />} />
+            <Route path="/accounts" element={<AccountsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
       </div>
 
-      {/* Bottom Navigation Bar */}
-      <div className='glass-panel' style={{ 
-        position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', 
-        width: '95%', maxWidth: '400px', padding: '0.8rem 1rem', 
-        borderRadius: '24px', zIndex: 1000,
-        boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-        border: '1px solid rgba(255,255,255,0.1)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-          <NavButton id='dashboard' icon={LayoutDashboard} label='Inicio' />
-          <NavButton id='accounts' icon={Wallet} label='Contas' /> {/* New Tab */}
-          
-          {/* Floating Action Button for Add */}
-          <button 
-            onClick={() => setActiveTab('add')}
-            style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--accent-primary) 0%, #00B0FF 100%)',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#000',
-              boxShadow: '0 0 15px rgba(0, 229, 255, 0.4)',
-              transform: 'translateY(-10px)',
-              cursor: 'pointer'
-            }}
-          >
-            <PlusCircle size={28} />
-          </button>
-          
-          <NavButton id='quest' icon={Trophy} label='Missões' />
-          <NavButton id='settings' icon={Settings} label='Ajustes' />
-        </div>
-      </div>
+      <Navigation />
 
     </div>
   );
@@ -141,7 +156,9 @@ export default function App() {
     return (
         <ThemeProvider>
             <TransactionProvider>
-                <AppContent />
+                <BrowserRouter>
+                    <AppContent />
+                </BrowserRouter>
             </TransactionProvider>
         </ThemeProvider>
     );
