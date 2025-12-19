@@ -67,7 +67,7 @@ const AppContent = () => {
                 borderRadius: '4px',
                 border: '1px solid rgba(0, 229, 255, 0.3)'
             }}>
-                v1.2.0
+                v1.2.1
             </span>
           </div>
         </div>
