@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import { TransactionProvider } from './context/TransactionContext';
+import { TransactionProvider, useTransaction } from './context/TransactionContext';
 
 // Components
 import Dashboard from './components/Dashboard';
@@ -12,9 +12,10 @@ import SettingsPage from './components/SettingsPage';
 import EnergyMap from './components/EnergyMap';
 import GamificationPage from './components/GamificationPage';
 import AccountsPage from './components/AccountsPage';
+import LevelUpModal from './components/LevelUpModal';
 
 // Icons
-import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet } from 'lucide-react';
+import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet, User } from 'lucide-react';
 
 const Navigation = () => {
     const navigate = useNavigate();
@@ -89,6 +90,8 @@ const Navigation = () => {
 };
 
 const AppContent = () => {
+  const { levelUpModal, closeLevelUpModal } = useTransaction();
+
   return (
     <div className='container' style={{ paddingBottom: '80px', position: 'relative' }}>
       
@@ -116,7 +119,7 @@ const AppContent = () => {
                 borderRadius: '4px',
                 border: '1px solid rgba(0, 229, 255, 0.3)'
             }}>
-                v1.3.0
+                v1.4.0
             </span>
           </div>
         </div>
@@ -124,7 +127,7 @@ const AppContent = () => {
             width: '32px', height: '32px', borderRadius: '50%', background: '#333', 
             display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #444' 
         }}>
-            ??
+            <User size={18} color="#aaa" />
         </div>
       </div>
 
@@ -147,6 +150,13 @@ const AppContent = () => {
       </div>
 
       <Navigation />
+      
+      {/* Level Up Modal */}
+      <LevelUpModal 
+        isOpen={levelUpModal.isOpen} 
+        level={levelUpModal.level} 
+        onClose={closeLevelUpModal} 
+      />
 
     </div>
   );

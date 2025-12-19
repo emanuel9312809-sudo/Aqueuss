@@ -5,14 +5,14 @@ const TransactionContext = createContext();
 export const useTransaction = () => useContext(TransactionContext);
 
 const DEFAULT_BUCKETS = [
-  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '🏠', type: 'survival' },
-  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: '🎉', type: 'leisure' },
-  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: '📈', type: 'evolution' },
+  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '??', type: 'survival' },
+  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: '??', type: 'leisure' },
+  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: '??', type: 'evolution' },
 ];
 
 const DEFAULT_ACCOUNTS = [
   { id: 'bank-a', name: 'Banco A', type: 'bank', balance: 0 },
-  { id: 'cash', name: 'Carteira Física', type: 'cash', balance: 0 },
+  { id: 'cash', name: 'Carteira F�sica', type: 'cash', balance: 0 },
 ];
 
 export const TransactionProvider = ({ children }) => {
@@ -22,20 +22,23 @@ export const TransactionProvider = ({ children }) => {
   const [accounts, setAccounts] = useState(DEFAULT_ACCOUNTS);
   const [fundSettings, setFundSettings] = useState({
     active: false,
-    name: 'Fundo Automático',
+    name: 'Fundo Autom�tico',
     percentage: 10,
     balance: 0 
   });
   const [recurringItems, setRecurringItems] = useState([]);
   
+  // Level Up Modal State
+  const [levelUpModal, setLevelUpModal] = useState({ isOpen: false, level: 1 });
+
   // Theme State
   const [theme, setTheme] = useState('dark');
 
   // Gamification State
   const [userStats, setUserStats] = useState({ level: 1, xp: 0, nextLevel: 100 });
   const [missions, setMissions] = useState([
-    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 Transação', xp: 50, completed: false },
-    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10€ (Fundo)', xp: 200, completed: false }, 
+    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 Transa��o', xp: 50, completed: false },
+    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10� (Fundo)', xp: 200, completed: false }, 
   ]);
 
   useEffect(() => {
@@ -73,6 +76,10 @@ export const TransactionProvider = ({ children }) => {
   const toggleTheme = () => {
       setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
+  
+  const closeLevelUpModal = () => {
+      setLevelUpModal(prev => ({ ...prev, isOpen: false }));
+  };
 
   const gainXP = (amount) => {
       setUserStats(prev => {
@@ -84,7 +91,8 @@ export const TransactionProvider = ({ children }) => {
               newLevel += 1;
               newXP = newXP - newNext;
               newNext = Math.floor(newNext * 1.5); 
-              alert("🎉 PARABÉNS! Você subiu para o Nível " + newLevel + "!");
+              // Trigger Modal instead of Alert
+              setLevelUpModal({ isOpen: true, level: newLevel });
               checkSmartReward();
           }
           return { level: newLevel, xp: newXP, nextLevel: newNext };
@@ -98,11 +106,13 @@ export const TransactionProvider = ({ children }) => {
       const REWARD_AMOUNT = 20; 
 
       if (available >= REWARD_AMOUNT) {
-          if (window.confirm("🎁 Recompensa de Nível Disponível! Deseja separar 20€ para LAZER agora?")) {
-              alert("✅ 20€ foram marcados para o seu Lazer! Aproveite!");
+          if (window.confirm("?? Recompensa de N�vel Dispon�vel! Deseja separar 20� para LAZER agora?")) {
+              alert("? 20� foram marcados para o seu Lazer! Aproveite!");
           }
       } else {
-          alert("⚠️ Nível Subiu! (Mas sem saldo livre para recompensa hoje.)");
+          // Alert removed here too to prevent double popup, purely visual feedback preferred or toast ideally
+          // But kept empty or we can add a subtle notification later
+          console.log("Level up, but no reward available");
       }
   };
 
@@ -178,7 +188,7 @@ export const TransactionProvider = ({ children }) => {
           name, 
           target: Number(target), 
           color: '#' + Math.floor(Math.random()*16777215).toString(16), 
-          icon: '📦',
+          icon: '??',
           type 
       };
       setBuckets(prev => [...prev, newBucket]);
@@ -198,7 +208,8 @@ export const TransactionProvider = ({ children }) => {
       fundSettings, setFundSettings,
       recurringItems,
       userStats, missions,
-      theme, toggleTheme
+      theme, toggleTheme,
+      levelUpModal, closeLevelUpModal
     }}>
       {children}
     </TransactionContext.Provider>
