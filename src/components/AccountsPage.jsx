@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Wallet, Plus, Trash2, ArrowRightLeft } from 'lucide-react';
 import { useWallet } from '../context/WalletContext';
 
@@ -105,7 +105,7 @@ export default function AccountsPage() {
 
        {/* Simple Total Assets Display */}
        <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(0, 229, 255, 0.05)', borderRadius: '12px', textAlign: 'center', border: '1px solid rgba(0, 229, 255, 0.2)' }}>
-            <div style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Património Total</div>
+            <div style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Patrimônio Total</div>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#00E5FF' }}>
                 {accounts.reduce((acc, obj) => acc + obj.balance, 0).toFixed(2)} €
             </div>
@@ -114,7 +114,3 @@ export default function AccountsPage() {
     </div>
   );
 }
-
-
-
-

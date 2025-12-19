@@ -1,4 +1,4 @@
-﻿import { Trophy, Medal, Star, TrendingUp, CheckCircle, Zap } from 'lucide-react';
+import { Trophy, Medal, Star, TrendingUp, CheckCircle, Zap } from 'lucide-react';
 import { useGamification } from '../context/GamificationContext';
 
 // Icon Helper
@@ -14,9 +14,9 @@ export default function GamificationPage() {
   const { userStats, missions } = useGamification(); 
 
   const badges = [
-    { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'ComeÃ§ou a jornada' },
-    { id: 2, name: 'Poupador', icon: <PiggyBankIcon />, unlocked: userStats.level >= 2, desc: 'Atingiu o NÃ­vel 2' },
-    { id: 3, name: 'Mestre', icon: <Trophy size={24} />, unlocked: userStats.level >= 5, desc: 'Atingiu o NÃ­vel 5' },
+    { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'Começou a jornada' },
+    { id: 2, name: 'Poupador', icon: <PiggyBankIcon />, unlocked: userStats.level >= 2, desc: 'Atingiu o Nível 2' },
+    { id: 3, name: 'Mestre', icon: <Trophy size={24} />, unlocked: userStats.level >= 5, desc: 'Atingiu o Nível 5' },
   ];
 
   const progressPercent = Math.min((userStats.xp / userStats.nextLevel) * 100, 100);
@@ -34,7 +34,7 @@ export default function GamificationPage() {
             margin: '0 auto 1rem auto', boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
             color: '#000'
         }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>NÃVEL</span>
+            <span style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>NÍVEL</span>
             <span style={{ fontSize: '3rem', fontWeight: 'bold', lineHeight: '1' }}>{userStats.level}</span>
         </div>
 
@@ -52,7 +52,7 @@ export default function GamificationPage() {
       </div>
 
       <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Zap size={20} color="#00E5FF" /> MissÃµes Ativas
+          <Zap size={20} color="#00E5FF" /> Missões Ativas
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
           {missions.map(mission => (
@@ -68,7 +68,7 @@ export default function GamificationPage() {
                       <div style={{ fontSize: '0.8rem', color: '#00E5FF' }}>+{mission.xp} XP</div>
                   </div>
                   <div>
-                      {mission.completed ? <CheckCircle color="#4BC0C0" /> : <span style={{ fontSize: '1.5rem' }}>â³</span>}
+                      {mission.completed ? <CheckCircle color="#4BC0C0" /> : <span style={{ fontSize: '1.5rem' }}>⏳</span>}
                   </div>
               </div>
           ))}
@@ -96,4 +96,3 @@ export default function GamificationPage() {
     </div>
   );
 }
-

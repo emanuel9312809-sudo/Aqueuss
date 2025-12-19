@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { WalletProvider } from './context/WalletContext';
@@ -58,7 +58,7 @@ const Navigation = () => {
             border: '1px solid rgba(255,255,255,0.1)'
         }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <NavButton path='/' icon={LayoutDashboard} label='Inicio' />
+                <NavButton path='/' icon={LayoutDashboard} label='Início' />
                 <NavButton path='/accounts' icon={Wallet} label='Contas' />
                 
                 {/* Floating Action Button for Add */}
@@ -166,6 +166,3 @@ export default function App() {
         </ThemeProvider>
     );
 }
-
-
-
