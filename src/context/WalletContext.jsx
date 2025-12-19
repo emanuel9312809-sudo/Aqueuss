@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+Ôªøimport { createContext, useContext, useState, useEffect } from 'react';
 import { useGamification } from './GamificationContext';
 
 const WalletContext = createContext();
@@ -13,7 +13,7 @@ const DEFAULT_BUCKETS = [
 
 const DEFAULT_ACCOUNTS = [
   { id: 'bank-a', name: 'Banco A', type: 'bank', balance: 0 },
-  { id: 'cash', name: 'Carteira FÌsica', type: 'cash', balance: 0 },
+  { id: 'cash', name: 'Carteira F√≠sica', type: 'cash', balance: 0 },
 ];
 
 export const WalletProvider = ({ children }) => {
@@ -25,7 +25,7 @@ export const WalletProvider = ({ children }) => {
   const [accounts, setAccounts] = useState(DEFAULT_ACCOUNTS);
   const [fundSettings, setFundSettings] = useState({
     active: false,
-    name: 'Fundo Autom·tico',
+    name: 'Fundo Autom√°tico',
     percentage: 10,
     balance: 0 
   });

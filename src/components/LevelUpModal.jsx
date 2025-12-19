@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+ï»¿import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Trophy, X } from 'lucide-react';
 
@@ -70,11 +70,11 @@ const LevelUpModal = ({ isOpen, level, onClose }) => {
         </h2>
         
         <p style={{ fontSize: '1.2rem', color: '#fff', margin: '1rem 0' }}>
-            Você alcançou o Nível <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{level}</span>
+            VocÃª alcanÃ§ou o NÃ­vel <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{level}</span>
         </p>
 
         <p style={{ textAlign: 'center', color: '#aaa', fontSize: '0.9rem', marginBottom: '2rem' }}>
-            Continue registrando transações para desbloquear mais recompensas!
+            Continue registrando transaÃ§Ãµes para desbloquear mais recompensas!
         </p>
 
         <button

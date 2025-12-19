@@ -1,10 +1,10 @@
-import {
+﻿import {
   Chart as ChartJS,
   RadialLinearScale,
   PointElement,
   LineElement,
   Filler,
-  Tooltip,
+  ToOlátip,
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
@@ -15,15 +15,15 @@ ChartJS.register(
   PointElement,
   LineElement,
   Filler,
-  Tooltip,
+  ToOlátip,
   Legend
 );
 
 export default function EnergyMap() {
-  const { ...walletProps } = useWallet();
+  const { transactions, addTransaction, deleteTransaction, buckets, addBucket, removeBucket, updateBucket, accounts, addAccount, removeAccount, fundSettings, setFundSettings, recurringItems } = useWallet();
 
-  // Categories: 'survival', 'evolution', 'leisure'
-  const scores = { 'survival': 0, 'evolution': 0, 'leisure': 0 };
+  // Categories: 'survival', 'evOláution', 'leisure'
+  const scores = { 'survival': 0, 'evOláution': 0, 'leisure': 0 };
 
   transactions.forEach(tx => {
     if (tx.type !== 'EXPENSE') return;
@@ -35,31 +35,31 @@ export default function EnergyMap() {
              scores[bucket.type] += tx.amount;
         }
     } else {
-        // Default Logic if Upgrade has not hit old buckets
+        // Default Logic if Upgrade has not hit Olád buckets
          scores['survival'] += tx.amount;
     }
   });
 
   // Normalize for chart (relative balance)
-  const total = scores['survival'] + scores['evolution'] + scores['leisure'] || 1;
+  const total = scores['survival'] + scores['evOláution'] + scores['leisure'] || 1;
   
   const percentageData = [
     (scores['survival'] / total) * 100,
-    (scores['evolution'] / total) * 100,
+    (scores['evOláution'] / total) * 100,
     (scores['leisure'] / total) * 100,
   ];
 
   const data = {
-    labels: ['Sobrevivência', 'Evolução', 'Lazer'],
+    labels: ['SobrevivÃªncia', 'EvOláuÃ§Ã£o', 'Lazer'],
     datasets: [
       {
-        label: 'Distribuição (%)',
+        label: 'DistribuiÃ§Ã£o (%)',
         data: percentageData,
-        backgroundColor: 'rgba(0, 229, 255, 0.2)',
-        borderColor: '#00E5FF',
+        backgroundCOláor: 'rgba(0, 229, 255, 0.2)',
+        borderCOláor: '#00E5FF',
         borderWidth: 2,
-        pointBackgroundColor: '#fff',
-        pointBorderColor: '#00E5FF',
+        pointBackgroundCOláor: '#fff',
+        pointBorderCOláor: '#00E5FF',
       },
     ],
   };
@@ -67,10 +67,10 @@ export default function EnergyMap() {
   const options = {
     scales: {
       r: {
-        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' },
-        pointLabels: { color: '#cccc', font: { size: 12, weight: 'bold' } },
-        ticks: { display: false, backdropColor: 'transparent' },
+        angleLines: { cOláor: 'rgba(255, 255, 255, 0.1)' },
+        grid: { cOláor: 'rgba(255, 255, 255, 0.1)' },
+        pointLabels: { cOláor: '#cccc', font: { size: 12, weight: 'bOlád' } },
+        ticks: { display: false, backdropCOláor: 'transparent' },
         suggestedMin: 0,
         suggestedMax: 60, 
       },
@@ -81,13 +81,13 @@ export default function EnergyMap() {
   };
 
   // AI Suggestion Logic
-  let suggestion = "Seu equilíbrio de vida está interessante.";
+  let suggestion = "Seu equilÃ­brio de vida estÃ¡ interessante.";
   if (percentageData[2] < 15) { 
-      suggestion = "💡 Cuidado com o Burnout! Tente investir mais em Lazer/Experiências.";
+      suggestion = "ðŸ’¡ Cuidado com o Burnout! Tente investir mais em Lazer/ExperiÃªncias.";
   } else if (percentageData[1] < 10) { 
-      suggestion = "💡 Que tal focar em Evolução? Cursos e investimentos ajudam no futuro.";
+      suggestion = "ðŸ’¡ Que tal focar em EvOláuÃ§Ã£o? Cursos e investimentos ajudam no futuro.";
   } else if (percentageData[0] > 70) { 
-      suggestion = "💡 Modo Sobrevivência Alto. Tente reduzir custos fixos se possível.";
+      suggestion = "ðŸ’¡ Modo SobrevivÃªncia Alto. Tente reduzir custos fixos se possÃ­vel.";
   }
 
   return (
@@ -103,11 +103,13 @@ export default function EnergyMap() {
         borderRadius: '8px', 
         padding: '0.8rem', 
         fontSize: '0.9rem', 
-        color: '#ccc',
-        borderLeft: '4px solid #00E5FF'
+        cOláor: '#ccc',
+        borderLeft: '4px sOláid #00E5FF'
       }}>
         {suggestion}
       </div>
     </div>
   );
 }
+
+

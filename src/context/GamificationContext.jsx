@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+ï»¿import { createContext, useContext, useState, useEffect } from 'react';
 import LevelUpModal from '../components/LevelUpModal';
 
 const GamificationContext = createContext();
@@ -8,8 +8,8 @@ export const useGamification = () => useContext(GamificationContext);
 export const GamificationProvider = ({ children }) => {
   const [userStats, setUserStats] = useState({ level: 1, xp: 0, nextLevel: 100 });
   const [missions, setMissions] = useState([
-    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 Transação', xp: 50, completed: false },
-    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10€ (Fundo)', xp: 200, completed: false }, 
+    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 TransaÃ§Ã£o', xp: 50, completed: false },
+    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10â‚¬ (Fundo)', xp: 200, completed: false }, 
   ]);
   const [levelUpModal, setLevelUpModal] = useState({ isOpen: false, level: 1 });
   const [dataLoaded, setDataLoaded] = useState(false);

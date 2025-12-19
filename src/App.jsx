@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { WalletProvider } from './context/WalletContext';
@@ -82,7 +82,7 @@ const Navigation = () => {
                     <PlusCircle size={28} />
                 </button>
                 
-                <NavButton path='/quest' icon={Trophy} label='Miss�es' />
+                <NavButton path='/quest' icon={Trophy} label='Missões' />
                 <NavButton path='/settings' icon={Settings} label='Ajustes' />
             </div>
         </div>
@@ -166,3 +166,5 @@ export default function App() {
         </ThemeProvider>
     );
 }
+
+

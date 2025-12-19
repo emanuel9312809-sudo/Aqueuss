@@ -1,4 +1,4 @@
-import {
+Ôªøimport {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -64,14 +64,14 @@ export default function AnalyticsPanel() {
     labels,
     datasets: [
       {
-        label: 'HistÛrico',
+        label: 'Hist√≥rico',
         data: historicalData,
         borderColor: '#00E5FF',
         backgroundColor: 'rgba(0, 229, 255, 0.5)',
         tension: 0.4,
       },
       {
-        label: 'Previs„o (IA)',
+        label: 'Previs√£o (IA)',
         data: projectedData,
         borderColor: '#FF2975',
         backgroundColor: 'rgba(255, 41, 117, 0.5)',
@@ -85,7 +85,7 @@ export default function AnalyticsPanel() {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'ProjeÁ„o de Saldo (30 Dias)', color: '#fff' },
+      title: { display: true, text: 'Proje√ß√£o de Saldo (30 Dias)', color: '#fff' },
     },
     scales: {
       y: { display: false },
@@ -118,9 +118,9 @@ export default function AnalyticsPanel() {
           marginBottom: '1rem',
           borderRadius: '4px'
         }}>
-          <strong style={{ color: '#FFCE56', display: 'block', marginBottom: '0.2rem' }}>?? AtenÁ„o: Desvio de OrÁamento</strong>
+          <strong style={{ color: '#FFCE56', display: 'block', marginBottom: '0.2rem' }}>?? Aten√ß√£o: Desvio de Or√ßamento</strong>
           <span style={{ fontSize: '0.85rem', color: '#ccc' }}>
-            A categoria <b>{alert.category}</b> est· a consumir <b>{alert.current}</b> (Ideal: {alert.param}).
+            A categoria <b>{alert.category}</b> est√° a consumir <b>{alert.current}</b> (Ideal: {alert.param}).
           </span>
         </div>
       ))}
@@ -140,7 +140,7 @@ export default function AnalyticsPanel() {
             fontSize: '0.8rem',
             textAlign: 'center'
          }}>
-           ?? <b>Risco CrÌtico:</b> Saldo negativo previsto em 12 dias.
+           ?? <b>Risco Cr√≠tico:</b> Saldo negativo previsto em 12 dias.
          </div>
       )}
 
