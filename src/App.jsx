@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { LayoutDashboard, PlusCircle, Trophy, Target, Settings, Sun, Moon, Bell } from 'lucide-react';
 
 import FlashInput from './components/FlashInput'
@@ -74,8 +74,8 @@ const AppContent = () => {
             zIndex: 200, animation: 'fadeIn 0.5s'
         }}>
             <Bell size={18} />
-            ⚠️ Alerta: Orçamento de Transporte a 90%!
-            <button onClick={() => setShowNotification(false)} style={{ background: 'none', border: 'none', color: 'white', marginLeft: 'auto', cursor: 'pointer' }}>✕</button>
+            ?? Alerta: Or�amento de Transporte a 90%!
+            <button onClick={() => setShowNotification(false)} style={{ background: 'none', border: 'none', color: 'white', marginLeft: 'auto', cursor: 'pointer' }}>?</button>
         </div>
       )}
 
@@ -96,7 +96,7 @@ const AppContent = () => {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
             <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold' }} className="title">
-              Aequus <span style={{fontSize: '0.8rem', opacity: 0.6}}>v1.0.0</span>
+              Aequus <span style={{fontSize: '0.8rem', opacity: 0.6}}>v1.1.0 ??</span>
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button 
