@@ -1,157 +1,115 @@
-import { useState, useEffect } from 'react'
-import { LayoutDashboard, PlusCircle, Trophy, Target, Settings, Sun, Moon, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { ThemeProvider } from './context/ThemeContext';
+import { TransactionProvider } from './context/TransactionContext';
 
-import FlashInput from './components/FlashInput'
-import TransactionList from './components/TransactionList'
-import Dashboard from './components/Dashboard'
-import AnalyticsPanel from './components/AnalyticsPanel'
-import EnergyMap from './components/EnergyMap'
-import GamificationPage from './components/GamificationPage'
-import GoalsPage from './components/GoalsPage'
-import SettingsPage from './components/SettingsPage'
-import { TransactionProvider, useTransaction } from './context/TransactionContext'
-import { ThemeProvider, useTheme } from './context/ThemeContext'
+// Components
+import Dashboard from './components/Dashboard';
+import TransactionList from './components/TransactionList';
+import FlashInput from './components/FlashInput';
+import GoalsPage from './components/GoalsPage';
+import SettingsPage from './components/SettingsPage';
+import EnergyMap from './components/EnergyMap';
+import GamificationPage from './components/GamificationPage';
+import AccountsPage from './components/AccountsPage'; // [NEW]
+
+// Icons
+import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet } from 'lucide-react';
 
 const AppContent = () => {
-  const [view, setView] = useState('dashboard'); 
-  const { theme, toggleTheme } = useTheme();
-  const { transactions } = useTransaction();
-  const [showNotification, setShowNotification] = useState(false);
-
-  // Notification Logic (Mock)
-  useEffect(() => {
-    // Check if Transport > 85% basic logic
-    const totalTransport = transactions
-      .filter(tx => tx.category === 'Transporte')
-      .reduce((acc, tx) => acc + tx.amount, 0);
-    
-    // Mock budget 200
-    if (totalTransport > 180) {
-        setShowNotification(true);
-    }
-  }, [transactions]);
-
+  const [activeTab, setActiveTab] = useState('dashboard');
+  
+  // Custom Tab Button
   const NavButton = ({ id, icon: Icon, label }) => (
-    <button 
-      onClick={() => setView(id)}
+    <button
+      onClick={() => setActiveTab(id)}
       style={{
-        background: 'transparent',
-        border: 'none',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '4px',
-        color: view === id ? 'var(--accent-primary)' : 'var(--text-secondary)',
+        justifyContent: 'center',
+        background: 'none',
+        border: 'none',
+        color: activeTab === id ? '#00E5FF' : '#666',
+        transition: 'color 0.3s',
         cursor: 'pointer',
         flex: 1
       }}
     >
-      <Icon size={24} />
-      <span style={{ fontSize: '0.7rem' }}>{label}</span>
+      <Icon size={24} style={{ marginBottom: '4px' }}/>
+      <span style={{ fontSize: '0.7rem', fontWeight: activeTab === id ? 'bold' : 'normal' }}>{label}</span>
     </button>
   );
 
   return (
-    <div className="app-container" style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      height: '100vh', 
-      overflow: 'hidden',
-      position: 'relative',
-      backgroundColor: 'var(--bg-primary)',
-      color: 'var(--text-primary)',
-      transition: 'all 0.3s ease'
-    }}>
-        
-      {/* Notifications Banner */}
-      {showNotification && (
-        <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            background: 'var(--accent-secondary)', color: 'white',
-            padding: '0.8rem', fontSize: '0.9rem', fontWeight: 'bold',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-            zIndex: 200, animation: 'fadeIn 0.5s'
-        }}>
-            <Bell size={18} />
-            ?? Alerta: Orçamento de Transporte a 90%!
-            <button onClick={() => setShowNotification(false)} style={{ background: 'none', border: 'none', color: 'white', marginLeft: 'auto', cursor: 'pointer' }}>?</button>
-        </div>
-      )}
-
-      {/* Main Content Area */}
+    <div className='container' style={{ paddingBottom: '80px', position: 'relative' }}>
+      
+      {/* Top Bar */}
       <div style={{ 
-        flex: 1, 
-        width: '100%', 
-        maxWidth: '450px', 
-        overflowY: 'auto',
-        padding: '1.5rem',
-        paddingTop: showNotification ? '3.5rem' : '1.5rem',
-        paddingBottom: '80px', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
+        marginBottom: '1rem', padding: '1rem 0' 
       }}>
-        
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold' }} className="title">
-              Aequus <span style={{fontSize: '0.8rem', opacity: 0.6}}>v1.1.0 ??</span>
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <button 
-                    onClick={toggleTheme} 
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-primary)' }}
-                >
-                    {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
-                </button>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--glass-border)' }}></div> 
-            </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ 
+            width: '40px', height: '40px', borderRadius: '12px', 
+            background: 'linear-gradient(135deg, #00E5FF 0%, #00B0FF 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 0 15px rgba(0, 229, 255, 0.3)'
+          }}>
+            <span style={{ fontSize: '1.5rem' }}>??</span>
+          </div>
+          <div>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: '1.1' }}>Aequus</h1>
+            <span style={{ 
+                fontSize: '0.7rem', 
+                background: 'rgba(0, 229, 255, 0.1)', 
+                color: '#00E5FF', 
+                padding: '2px 6px', 
+                borderRadius: '4px',
+                border: '1px solid rgba(0, 229, 255, 0.3)'
+            }}>
+                v1.2.0
+            </span>
+          </div>
         </div>
-
-        {view === 'dashboard' && (
-          <>
-            <Dashboard />
-            <EnergyMap />
-            <AnalyticsPanel />
-            <TransactionList />
-          </>
-        )}
-
-        {view === 'add' && (
-           <>
-              <FlashInput />
-              <TransactionList />
-           </>
-        )}
-
-        {view === 'quest' && <GamificationPage />}
-        
-        {view === 'goals' && <GoalsPage />}
-
-        {view === 'settings' && <SettingsPage />}
-
+        <div style={{ 
+            width: '32px', height: '32px', borderRadius: '50%', background: '#333', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #444' 
+        }}>
+            ??
+        </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        height: '70px',
-        background: 'var(--bg-secondary)',
-        borderTop: '1px solid var(--glass-border)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100
+      {/* Main Content Area */}
+      <div className='content-area'>
+        {activeTab === 'dashboard' && (
+            <>
+                <Dashboard />
+                <EnergyMap />
+                <TransactionList />
+            </>
+        )}
+        {activeTab === 'add' && <FlashInput />}
+        {activeTab === 'goals' && <GoalsPage />}
+        {activeTab === 'quest' && <GamificationPage />}
+        {activeTab === 'accounts' && <AccountsPage />}
+        {activeTab === 'settings' && <SettingsPage />}
+      </div>
+
+      {/* Bottom Navigation Bar */}
+      <div className='glass-panel' style={{ 
+        position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', 
+        width: '95%', maxWidth: '400px', padding: '0.8rem 1rem', 
+        borderRadius: '24px', zIndex: 1000,
+        boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+        border: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div style={{ width: '100%', maxWidth: '450px', display: 'flex', justifyContent: 'space-between', padding: '0 1rem' }}>
-          <NavButton id="dashboard" icon={LayoutDashboard} label="Home" />
-          <NavButton id="quest" icon={Trophy} label="Quest" />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <NavButton id='dashboard' icon={LayoutDashboard} label='Inicio' />
+          <NavButton id='accounts' icon={Wallet} label='Contas' /> {/* New Tab */}
+          
+          {/* Floating Action Button for Add */}
           <button 
-            onClick={() => setView('add')}
+            onClick={() => setActiveTab('add')}
             style={{
               width: '48px',
               height: '48px',
@@ -169,8 +127,9 @@ const AppContent = () => {
           >
             <PlusCircle size={28} />
           </button>
-          <NavButton id="goals" icon={Target} label="Metas" />
-          <NavButton id="settings" icon={Settings} label="Ajustes" />
+          
+          <NavButton id='quest' icon={Trophy} label='Missões' />
+          <NavButton id='settings' icon={Settings} label='Ajustes' />
         </div>
       </div>
 
