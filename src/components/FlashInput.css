@@ -1,0 +1,103 @@
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.amount-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.currency {
+  font-size: 2.5rem;
+  color: #00E5FF;
+}
+
+.amount-input {
+  background: transparent;
+  border: none;
+  font-size: 3rem;
+  color: #fff;
+  width: 150px;
+  text-align: center;
+  outline: none;
+  font-weight: bold;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.category-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.category-btn.active {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: #00E5FF;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.cat-icon {
+  font-size: 1.5rem;
+}
+
+.cat-name {
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #00E5FF 0%, #00B0FF 100%);
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  color: #0d121c;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: opacity 0.2s;
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #333;
+  color: #666;
+}
