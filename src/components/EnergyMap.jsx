@@ -4,7 +4,7 @@
   PointElement,
   LineElement,
   Filler,
-  ToOlátip,
+  Tooltip,
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
@@ -15,7 +15,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   Filler,
-  ToOlátip,
+  Tooltip,
   Legend
 );
 
@@ -111,5 +111,6 @@ export default function EnergyMap() {
     </div>
   );
 }
+
 
 

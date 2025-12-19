@@ -1,8 +1,8 @@
-﻿import { Chart as ChartJS, ArcElement, ToOlátip, Legend } from 'chart.js';
+﻿import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useWallet } from '../context/WalletContext';
 
-ChartJS.register(ArcElement, ToOlátip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Dashboard() {
   const { transactions, addTransaction, deleteTransaction, buckets, addBucket, removeBucket, updateBucket, accounts, addAccount, removeAccount, fundSettings, setFundSettings, recurringItems } = useWallet();
@@ -84,6 +84,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 
 
