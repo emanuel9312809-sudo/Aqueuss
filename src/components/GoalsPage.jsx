@@ -1,10 +1,10 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Target, Plus } from 'lucide-react';
 
 export default function GoalsPage() {
   const [goals, setGoals] = useState([
     { id: 1, name: 'Viagem 2026', target: 2000, current: 850, deadline: '2026-06-01' },
-    { id: 2, name: 'Fundo de Emergência', target: 5000, current: 1200, deadline: '2025-12-31' },
+    { id: 2, name: 'Fundo de Emerg�ncia', target: 5000, current: 1200, deadline: '2025-12-31' },
   ]);
   
   const [showForm, setShowForm] = useState(false);
@@ -55,7 +55,7 @@ export default function GoalsPage() {
             onChange={e => setNewGoal({...newGoal, name: e.target.value})}
           />
           <input 
-            placeholder="Valor Alvo (€)" 
+            placeholder="Valor Alvo (&euro;)" 
             type="number"
             style={{ width: '100%', padding: '0.8rem', background: '#222', border: 'none', marginBottom: '0.5rem', color: '#fff', borderRadius: '4px' }}
             value={newGoal.target}
@@ -82,7 +82,7 @@ export default function GoalsPage() {
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <span style={{ fontWeight: '500' }}>{goal.name}</span>
-                <span style={{ color: '#aaa', fontSize: '0.9rem' }}>{goal.current}€ / {goal.target}€</span>
+                <span style={{ color: '#aaa', fontSize: '0.9rem' }}>{goal.current}&euro; / {goal.target}&euro;</span>
               </div>
               
               <div style={{ width: '100%', height: '8px', background: '#333', borderRadius: '4px', overflow: 'hidden' }}>

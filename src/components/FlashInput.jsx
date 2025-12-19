@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useTransaction } from '../context/TransactionContext';
 import './FlashInput.css';
 
@@ -46,7 +46,7 @@ export default function FlashInput() {
     setIsRecurring(false);
     
     if(transactionData.isRecurring) {
-        alert('Rendimento Recorrente Configurado! Será adicionado automaticamente todos os meses neste dia.');
+        alert('Rendimento Recorrente Configurado! Ser� adicionado automaticamente todos os meses neste dia.');
     } else {
         alert('Registado com sucesso!');
     }
@@ -80,7 +80,7 @@ export default function FlashInput() {
       
       {/* Amount Input */}
       <div className="amount-input-wrapper">
-        <span className="currency">€</span>
+        <span className="currency">&euro;</span>
         <input 
           type="number" 
           value={amount}
@@ -107,7 +107,7 @@ export default function FlashInput() {
           >
               {accounts.map(acc => (
                   <option key={acc.id} value={acc.id}>
-                      {acc.name} ({acc.balance.toFixed(2)}€)
+                      {acc.name} ({acc.balance.toFixed(2)}&euro;)
                   </option>
               ))}
           </select>

@@ -1,4 +1,4 @@
-﻿import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useTransaction } from '../context/TransactionContext';
 
@@ -65,16 +65,16 @@ export default function Dashboard() {
       <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
         {balance.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
       </h2>
-      <p style={{ color: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Saldo Total Estimado <span style={{ fontSize: '0.7rem', color: '#00E5FF', border: '1px solid #00E5FF', padding: '1px 4px', borderRadius: '4px' }}>LIVE ✅</span></p>
+      <p style={{ color: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>Saldo Total Estimado <span style={{ fontSize: '0.7rem', color: '#00E5FF', border: '1px solid #00E5FF', padding: '1px 4px', borderRadius: '4px' }}>LIVE ?</span></p>
       
       <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
         <div style={{ flex: 1 }}>
-          <p style={{ color: '#00E5FF' }}>+{income.toFixed(0)}€</p>
-          <span style={{ fontSize: '0.7rem', color: '#666' }}>Entradas (Mês)</span>
+          <p style={{ color: '#00E5FF' }}>+{income.toFixed(0)}&euro;</p>
+          <span style={{ fontSize: '0.7rem', color: '#666' }}>Entradas (M�s)</span>
         </div>
         <div style={{ flex: 1 }}>
-          <p style={{ color: '#FF2975' }}>-{expenses.toFixed(0)}€</p>
-          <span style={{ fontSize: '0.7rem', color: '#666' }}>Saídas (Mês)</span>
+          <p style={{ color: '#FF2975' }}>-{expenses.toFixed(0)}&euro;</p>
+          <span style={{ fontSize: '0.7rem', color: '#666' }}>Sa�das (M�s)</span>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-﻿import { Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useTransaction } from '../context/TransactionContext';
 
 export default function TransactionList() {
@@ -7,12 +7,12 @@ export default function TransactionList() {
   // Helper to get bucket icon
   const getIcon = (bucketId) => {
       const b = buckets.find(b => b.id === bucketId);
-      return b ? b.icon : '📄';
+      return b ? b.icon : '??';
   };
 
   return (
     <div className="glass-panel" style={{ marginTop: '1rem', maxHeight: '300px', overflowY: 'auto' }}>
-      <h3 className="title" style={{ fontSize: '1rem', marginBottom: '1rem' }}>Últimas Transações</h3>
+      <h3 className="title" style={{ fontSize: '1rem', marginBottom: '1rem' }}>�ltimas Transa��es</h3>
       
       {transactions.length === 0 ? (
         <p style={{ textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>Sem registos ainda.</p>
@@ -30,7 +30,7 @@ export default function TransactionList() {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ fontSize: '1.2rem' }}>
-                    {tx.type === 'INCOME' ? '💰' : getIcon(tx.bucketId)}
+                    {tx.type === 'INCOME' ? '??' : getIcon(tx.bucketId)}
                 </span>
                 <div>
                   <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: '500' }}>{tx.category}</div>
@@ -43,7 +43,7 @@ export default function TransactionList() {
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div style={{ color: tx.type === 'INCOME' ? '#00E5FF' : '#FF2975', fontWeight: 'bold' }}>
-                    {tx.type === 'INCOME' ? '+' : '-'}{tx.amount.toFixed(2)} €
+                    {tx.type === 'INCOME' ? '+' : '-'}{tx.amount.toFixed(2)} &euro;
                   </div>
                   <button 
                     onClick={() => {
