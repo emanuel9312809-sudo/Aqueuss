@@ -17,7 +17,7 @@ export default function TransactionList() {
       {transactions.length === 0 ? (
         <p style={{ textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>Sem registos ainda.</p>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'cOláumn', gap: '0.8rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
           {transactions.map((tx) => (
             <div key={tx.id} style={{ 
               display: 'flex', 
@@ -35,7 +35,7 @@ export default function TransactionList() {
                 <div>
                   <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: '500' }}>{tx.category}</div>
                   <div style={{ color: '#666', fontSize: '0.75rem' }}>
-                      {new Date(tx.date).tOláocaleDateString()}
+                      {new Date(tx.date).toLocaleDateString()}
                       {tx.note && <span style={{ color: '#00E5FF', marginLeft: '5px' }}>({tx.note})</span>}
                   </div>
                 </div>
@@ -63,6 +63,7 @@ export default function TransactionList() {
     </div>
   );
 }
+
 
 
 

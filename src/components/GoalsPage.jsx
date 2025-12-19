@@ -70,7 +70,7 @@ export default function GoalsPage() {
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'cOláumn', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {goals.map(goal => {
           const progress = (goal.current / goal.target) * 100;
           return (
@@ -105,6 +105,7 @@ export default function GoalsPage() {
     </div>
   );
 }
+
 
 
 

@@ -50,10 +50,10 @@ export default function EnergyMap() {
   ];
 
   const data = {
-    labels: ['SobrevivÃªncia', 'EvOláuÃ§Ã£o', 'Lazer'],
+    labels: ['Sobrevivência', 'Evolução', 'Lazer'],
     datasets: [
       {
-        label: 'DistribuiÃ§Ã£o (%)',
+        label: 'Distribuição (%)',
         data: percentageData,
         backgroundcolor: 'rgba(0, 229, 255, 0.2)',
         bordercolor: '#00E5FF',
@@ -85,9 +85,9 @@ export default function EnergyMap() {
   if (percentageData[2] < 15) { 
       suggestion = "ðŸ’¡ Cuidado com o Burnout! Tente investir mais em Lazer/ExperiÃªncias.";
   } else if (percentageData[1] < 10) { 
-      suggestion = "ðŸ’¡ Que tal focar em EvOláuÃ§Ã£o? Cursos e investimentos ajudam no futuro.";
+      suggestion = "ðŸ’¡ Que tal focar em Evolução? Cursos e investimentos ajudam no futuro.";
   } else if (percentageData[0] > 70) { 
-      suggestion = "ðŸ’¡ Modo SobrevivÃªncia Alto. Tente reduzir custos fixos se possÃ­vel.";
+      suggestion = "ðŸ’¡ Modo Sobrevivência Alto. Tente reduzir custos fixos se possível.";
   }
 
   return (
@@ -111,6 +111,7 @@ export default function EnergyMap() {
     </div>
   );
 }
+
 
 
 
