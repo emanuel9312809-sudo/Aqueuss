@@ -27,6 +27,9 @@ export const TransactionProvider = ({ children }) => {
     balance: 0 
   });
   const [recurringItems, setRecurringItems] = useState([]);
+  
+  // Theme State
+  const [theme, setTheme] = useState('dark');
 
   // Gamification State
   const [userStats, setUserStats] = useState({ level: 1, xp: 0, nextLevel: 100 });
@@ -42,6 +45,7 @@ export const TransactionProvider = ({ children }) => {
     const loadedFund = localStorage.getItem('aequus_fund');
     const loadedRecurring = localStorage.getItem('aequus_recurring');
     const loadedStats = localStorage.getItem('aequus_stats');
+    const loadedTheme = localStorage.getItem('aequus_theme');
     
     if (loadedTx) setTransactions(JSON.parse(loadedTx));
     if (loadedBuckets) setBuckets(JSON.parse(loadedBuckets));
@@ -49,6 +53,7 @@ export const TransactionProvider = ({ children }) => {
     if (loadedFund) setFundSettings(JSON.parse(loadedFund));
     if (loadedRecurring) setRecurringItems(JSON.parse(loadedRecurring));
     if (loadedStats) setUserStats(JSON.parse(loadedStats));
+    if (loadedTheme) setTheme(loadedTheme);
 
     setDataLoaded(true);
   }, []);
@@ -61,7 +66,13 @@ export const TransactionProvider = ({ children }) => {
     localStorage.setItem('aequus_fund', JSON.stringify(fundSettings));
     localStorage.setItem('aequus_recurring', JSON.stringify(recurringItems));
     localStorage.setItem('aequus_stats', JSON.stringify(userStats));
-  }, [transactions, buckets, accounts, fundSettings, recurringItems, userStats, dataLoaded]);
+    localStorage.setItem('aequus_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [transactions, buckets, accounts, fundSettings, recurringItems, userStats, theme, dataLoaded]);
+
+  const toggleTheme = () => {
+      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   const gainXP = (amount) => {
       setUserStats(prev => {
@@ -186,7 +197,8 @@ export const TransactionProvider = ({ children }) => {
       accounts, addAccount, removeAccount,
       fundSettings, setFundSettings,
       recurringItems,
-      userStats, missions 
+      userStats, missions,
+      theme, toggleTheme
     }}>
       {children}
     </TransactionContext.Provider>
