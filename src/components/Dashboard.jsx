@@ -1,11 +1,11 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Dashboard() {
-  const { transactions } = useTransaction();
+  const { ...walletProps } = useWallet();
 
   // Basic Financials
   const currentMonth = new Date().getMonth();
@@ -84,3 +84,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

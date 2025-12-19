@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 import './FlashInput.css';
 
 export default function FlashInput() {
@@ -9,7 +9,7 @@ export default function FlashInput() {
   const [type, setType] = useState('EXPENSE'); // 'EXPENSE' | 'INCOME'
   const [isRecurring, setIsRecurring] = useState(false);
   
-  const { addTransaction, buckets, accounts } = useTransaction();
+  const { ...walletProps } = useWallet();
 
   // Set default account
   if (!selectedAccountId && accounts.length > 0) {
@@ -160,3 +160,4 @@ export default function FlashInput() {
     </div>
   );
 }
+

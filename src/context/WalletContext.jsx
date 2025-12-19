@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useGamification } from './GamificationContext';
 
-const TransactionContext = createContext();
+const WalletContext = createContext();
 
-export const useTransaction = () => useContext(TransactionContext);
+export const useWallet = () => useContext(WalletContext);
 
 const DEFAULT_BUCKETS = [
   { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '??', type: 'survival' },
@@ -15,7 +16,9 @@ const DEFAULT_ACCOUNTS = [
   { id: 'cash', name: 'Carteira Física', type: 'cash', balance: 0 },
 ];
 
-export const TransactionProvider = ({ children }) => {
+export const WalletProvider = ({ children }) => {
+  const { gainXP, checkMissions } = useGamification();
+
   const [dataLoaded, setDataLoaded] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [buckets, setBuckets] = useState(DEFAULT_BUCKETS);
@@ -27,19 +30,6 @@ export const TransactionProvider = ({ children }) => {
     balance: 0 
   });
   const [recurringItems, setRecurringItems] = useState([]);
-  
-  // Level Up Modal State
-  const [levelUpModal, setLevelUpModal] = useState({ isOpen: false, level: 1 });
-
-  // Theme State
-  const [theme, setTheme] = useState('dark');
-
-  // Gamification State
-  const [userStats, setUserStats] = useState({ level: 1, xp: 0, nextLevel: 100 });
-  const [missions, setMissions] = useState([
-    { id: 'daily-1', type: 'daily', desc: 'Registrar 1 Transação', xp: 50, completed: false },
-    { id: 'weekly-1', type: 'weekly', desc: 'Poupar 10€ (Fundo)', xp: 200, completed: false }, 
-  ]);
 
   useEffect(() => {
     const loadedTx = localStorage.getItem('aequus_transactions');
@@ -47,16 +37,12 @@ export const TransactionProvider = ({ children }) => {
     const loadedAccounts = localStorage.getItem('aequus_accounts');
     const loadedFund = localStorage.getItem('aequus_fund');
     const loadedRecurring = localStorage.getItem('aequus_recurring');
-    const loadedStats = localStorage.getItem('aequus_stats');
-    const loadedTheme = localStorage.getItem('aequus_theme');
     
     if (loadedTx) setTransactions(JSON.parse(loadedTx));
     if (loadedBuckets) setBuckets(JSON.parse(loadedBuckets));
     if (loadedAccounts) setAccounts(JSON.parse(loadedAccounts));
     if (loadedFund) setFundSettings(JSON.parse(loadedFund));
     if (loadedRecurring) setRecurringItems(JSON.parse(loadedRecurring));
-    if (loadedStats) setUserStats(JSON.parse(loadedStats));
-    if (loadedTheme) setTheme(loadedTheme);
 
     setDataLoaded(true);
   }, []);
@@ -68,65 +54,7 @@ export const TransactionProvider = ({ children }) => {
     localStorage.setItem('aequus_accounts', JSON.stringify(accounts));
     localStorage.setItem('aequus_fund', JSON.stringify(fundSettings));
     localStorage.setItem('aequus_recurring', JSON.stringify(recurringItems));
-    localStorage.setItem('aequus_stats', JSON.stringify(userStats));
-    localStorage.setItem('aequus_theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [transactions, buckets, accounts, fundSettings, recurringItems, userStats, theme, dataLoaded]);
-
-  const toggleTheme = () => {
-      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
-  
-  const closeLevelUpModal = () => {
-      setLevelUpModal(prev => ({ ...prev, isOpen: false }));
-  };
-
-  const gainXP = (amount) => {
-      setUserStats(prev => {
-          let newXP = prev.xp + amount;
-          let newLevel = prev.level;
-          let newNext = prev.nextLevel;
-          
-          if (newXP >= newNext) {
-              newLevel += 1;
-              newXP = newXP - newNext;
-              newNext = Math.floor(newNext * 1.5); 
-              // Trigger Modal instead of Alert
-              setLevelUpModal({ isOpen: true, level: newLevel });
-              checkSmartReward();
-          }
-          return { level: newLevel, xp: newXP, nextLevel: newNext };
-      });
-  };
-
-  const checkSmartReward = () => {
-      const totalIncome = transactions.filter(t => t.type === 'INCOME').reduce((a, t) => a + t.amount, 0);
-      const totalExpense = transactions.filter(t => t.type === 'EXPENSE').reduce((a, t) => a + t.amount, 0);
-      const available = totalIncome - totalExpense;
-      const REWARD_AMOUNT = 20; 
-
-      if (available >= REWARD_AMOUNT) {
-          if (window.confirm("?? Recompensa de Nível Disponível! Deseja separar 20€ para LAZER agora?")) {
-              alert("? 20€ foram marcados para o seu Lazer! Aproveite!");
-          }
-      } else {
-          // Alert removed here too to prevent double popup, purely visual feedback preferred or toast ideally
-          // But kept empty or we can add a subtle notification later
-          console.log("Level up, but no reward available");
-      }
-  };
-
-  const checkMissions = (action) => {
-      if (action === 'ADD_TRANSACTION') {
-          setMissions(prev => prev.map(m => {
-              if (m.type === 'daily' && !m.completed) {
-                  gainXP(m.xp);
-                  return { ...m, completed: true };
-              }
-              return m;
-          }));
-      }
-  };
+  }, [transactions, buckets, accounts, fundSettings, recurringItems, dataLoaded]);
 
   const addTransaction = (transaction) => {
     if (transaction.isRecurring) {
@@ -154,6 +82,7 @@ export const TransactionProvider = ({ children }) => {
         updateAccountBalance(newTx.accountId, newTx.amount, newTx.type);
     }
     
+    // Call Gamification Context
     gainXP(10); 
     checkMissions('ADD_TRANSACTION');
   };
@@ -201,17 +130,14 @@ export const TransactionProvider = ({ children }) => {
   const removeAccount = (id) => setAccounts(prev => prev.filter(a => a.id !== id));
 
   return (
-    <TransactionContext.Provider value={{ 
+    <WalletContext.Provider value={{ 
       transactions, addTransaction, deleteTransaction,
       buckets, addBucket, removeBucket, updateBucket,
       accounts, addAccount, removeAccount,
       fundSettings, setFundSettings,
-      recurringItems,
-      userStats, missions,
-      theme, toggleTheme,
-      levelUpModal, closeLevelUpModal
+      recurringItems
     }}>
       {children}
-    </TransactionContext.Provider>
+    </WalletContext.Provider>
   );
 };

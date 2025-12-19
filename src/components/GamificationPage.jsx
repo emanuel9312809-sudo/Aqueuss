@@ -1,5 +1,5 @@
 import { Trophy, Medal, Star, TrendingUp, CheckCircle, Zap } from 'lucide-react';
-import { useTransaction } from '../context/TransactionContext';
+import { useGamification } from '../context/GamificationContext';
 
 // Icon Helper
 const PiggyBankIcon = () => (
@@ -11,7 +11,7 @@ const PiggyBankIcon = () => (
 );
 
 export default function GamificationPage() {
-  const { userStats, missions } = useTransaction(); 
+  const { userStats, missions } = useGamification(); 
 
   const badges = [
     { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'Começou a jornada' },

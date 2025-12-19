@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import { TransactionProvider, useTransaction } from './context/TransactionContext';
+import { WalletProvider } from './context/WalletContext';
+import { GamificationProvider } from './context/GamificationContext';
 
 // Components
 import Dashboard from './components/Dashboard';
@@ -12,7 +13,6 @@ import SettingsPage from './components/SettingsPage';
 import EnergyMap from './components/EnergyMap';
 import GamificationPage from './components/GamificationPage';
 import AccountsPage from './components/AccountsPage';
-import LevelUpModal from './components/LevelUpModal';
 
 // Icons
 import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet, User } from 'lucide-react';
@@ -90,8 +90,6 @@ const Navigation = () => {
 };
 
 const AppContent = () => {
-  const { levelUpModal, closeLevelUpModal } = useTransaction();
-
   return (
     <div className='container' style={{ paddingBottom: '80px', position: 'relative' }}>
       
@@ -107,7 +105,7 @@ const AppContent = () => {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 0 15px rgba(0, 229, 255, 0.3)'
           }}>
-            <span style={{ fontSize: '1.5rem' }}>??</span>
+            <Wallet size={24} color="#000" />
           </div>
           <div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: '1.1' }}>Aequus</h1>
@@ -119,7 +117,7 @@ const AppContent = () => {
                 borderRadius: '4px',
                 border: '1px solid rgba(0, 229, 255, 0.3)'
             }}>
-                v1.4.1
+                v1.5.0
             </span>
           </div>
         </div>
@@ -150,13 +148,6 @@ const AppContent = () => {
       </div>
 
       <Navigation />
-      
-      {/* Level Up Modal */}
-      <LevelUpModal 
-        isOpen={levelUpModal.isOpen} 
-        level={levelUpModal.level} 
-        onClose={closeLevelUpModal} 
-      />
 
     </div>
   );
@@ -165,11 +156,13 @@ const AppContent = () => {
 export default function App() {
     return (
         <ThemeProvider>
-            <TransactionProvider>
-                <BrowserRouter>
-                    <AppContent />
-                </BrowserRouter>
-            </TransactionProvider>
+            <GamificationProvider>
+                <WalletProvider>
+                    <BrowserRouter>
+                        <AppContent />
+                    </BrowserRouter>
+                </WalletProvider>
+            </GamificationProvider>
         </ThemeProvider>
     );
 }

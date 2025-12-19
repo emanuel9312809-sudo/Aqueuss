@@ -8,7 +8,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 
 ChartJS.register(
   RadialLinearScale,
@@ -20,7 +20,7 @@ ChartJS.register(
 );
 
 export default function EnergyMap() {
-  const { transactions, buckets } = useTransaction();
+  const { ...walletProps } = useWallet();
 
   // Categories: 'survival', 'evolution', 'leisure'
   const scores = { 'survival': 0, 'evolution': 0, 'leisure': 0 };

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Wallet, Plus, Trash2, ArrowRightLeft } from 'lucide-react';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 
 export default function AccountsPage() {
-  const { accounts, addAccount, removeAccount, transactions } = useTransaction();
+  const { ...walletProps } = useWallet();
   
   const [showForm, setShowForm] = useState(false);
   const [newAccountName, setNewAccountName] = useState('');
@@ -114,3 +114,4 @@ export default function AccountsPage() {
     </div>
   );
 }
+

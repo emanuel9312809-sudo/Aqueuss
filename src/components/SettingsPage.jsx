@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PieChart, Briefcase, Plus, Trash2, Save, Wallet, PiggyBank, Moon, Sun } from 'lucide-react';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 
 export default function SettingsPage() {
   const { 
@@ -8,7 +8,7 @@ export default function SettingsPage() {
     accounts, addAccount, removeAccount,
     fundSettings, setFundSettings,
     theme, toggleTheme
-  } = useTransaction();
+  } = useWallet();
   
   const [newBucketName, setNewBucketName] = useState('');
   const [newBucketTarget, setNewBucketTarget] = useState('');
@@ -212,3 +212,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

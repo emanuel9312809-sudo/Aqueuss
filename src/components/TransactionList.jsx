@@ -1,8 +1,8 @@
 import { Trash2 } from 'lucide-react';
-import { useTransaction } from '../context/TransactionContext';
+import { useWallet } from '../context/WalletContext';
 
 export default function TransactionList() {
-  const { transactions, buckets, deleteTransaction } = useTransaction();
+  const { ...walletProps } = useWallet();
 
   // Helper to get bucket icon
   const getIcon = (bucketId) => {
@@ -63,3 +63,4 @@ export default function TransactionList() {
     </div>
   );
 }
+
