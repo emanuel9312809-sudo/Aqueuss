@@ -1,86 +1,62 @@
 
 // --- UI RENDER MODULE ---
-// Handles pure visual elements like SVGs to keep components clean.
-// Updated: Vector Flame Style (No Pixels, No Rects)
+// Handles pure visual elements - Vector Flame Wolf (v1.15.0)
 
 import React from 'react';
 
 export const WolfAvatar = ({ mood, level }) => {
-    // Mood variations
+    // Mood Config
     const isSleeping = mood === 'sleep';
     const isAlpha = mood === 'alpha';
 
-    // Animation Style (Breathing)
-    // We apply this to the main group
+    // Animation: Gentle Float/Breath
     const breathStyle = {
-        animation: isSleeping ? 'wolfBreath 4s ease-in-out infinite' : 'wolfBreath 2s ease-in-out infinite',
-        transformOrigin: 'center center'
+        animation: 'wolfBreath 3s ease-in-out infinite',
+        filter: 'drop-shadow(0 0 8px rgba(0, 229, 255, 0.4))'
     };
 
     return (
         <svg
-            viewBox="0 0 200 200"
+            viewBox="0 0 100 100"
             width="100%"
             height="100%"
             xmlns="http://www.w3.org/2000/svg"
             style={{ overflow: 'visible' }}
         >
             <defs>
-                <linearGradient id="wolfGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#00E5FF" /> {/* Cyan/Neon Blue */}
-                    <stop offset="50%" stopColor="#7B2CBF" /> {/* Deep Purple */}
-                    <stop offset="100%" stopColor="#FF007F" /> {/* Cyber Pink */}
+                <linearGradient id="flameGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#00E5FF" /> {/* Cyan */}
+                    <stop offset="100%" stopColor="#FF007F" /> {/* Magenta */}
                 </linearGradient>
-
-                <filter id="vectorGlow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                    <feMerge>
-                        <feMergeNode in="coloredBlur" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
             </defs>
 
             <g style={breathStyle}>
-                {/* --- FLUID WOLF SILHOUETTE --- */}
-                {/* Drawn with bezier curves for a smooth, organic 'flame' look */}
+                {/* --- SIMPLE FLAME SILHOUETTE --- */}
+                {/* Minimalist "TikTok" Style - Single Fluid Path */}
                 <path
-                    d="M100 180 
-                       C 80 180, 50 160, 40 120 
-                       C 35 100, 20 80, 40 60 
-                       C 50 50, 60 80, 70 90 
-                       C 75 70, 60 30, 80 20 
-                       C 95 15, 105 15, 120 20 
-                       C 140 30, 125 70, 130 90 
-                       C 140 80, 150 50, 160 60 
-                       C 180 80, 165 100, 160 120 
-                       C 150 160, 120 180, 100 180 Z"
-                    fill="url(#wolfGradient)"
-                    filter="url(#vectorGlow)"
-                    stroke="none"
+                    d="M50 90 
+                       C 40 90, 25 80, 25 60 
+                       C 25 45, 35 30, 45 20 
+                       C 48 15, 52 15, 55 20
+                       C 65 30, 75 45, 75 60
+                       C 75 80, 60 90, 50 90 Z"
+                    fill="url(#flameGradient)"
+                    opacity={isSleeping ? 0.5 : 0.9}
                 />
 
-                {/* --- EYES --- */}
-                {isSleeping ? (
-                    // Closed Eyes (Curved Lines)
-                    <path d="M70 110 Q 80 120, 90 110 M110 110 Q 120 120, 130 110"
-                        fill="none"
-                        stroke="#fff"
-                        strokeWidth="3"
-                        strokeLinecap="round" />
-                ) : (
-                    // Open Eyes (Sharp/Alpha)
-                    <g>
-                        <path d="M65 105 Q 80 95, 95 105" fill="none" stroke="#fff" strokeWidth={isAlpha ? "4" : "3"} strokeLinecap="round" />
-                        <path d="M105 105 Q 120 95, 135 105" fill="none" stroke="#fff" strokeWidth={isAlpha ? "4" : "3"} strokeLinecap="round" />
-                        {/* Pupils if Alpha */}
-                        {isAlpha && (
-                            <path d="M80 102 L80 108 M120 102 L120 108" stroke="#00E5FF" strokeWidth="3" />
-                        )}
+                {/* --- EYES (Negative Space or White) --- */}
+                {!isSleeping && (
+                    <g fill="#fff">
+                        <circle cx="42" cy="55" r={isAlpha ? "3" : "2.5"} />
+                        <circle cx="58" cy="55" r={isAlpha ? "3" : "2.5"} />
                     </g>
                 )}
-            </g>
 
+                {isSleeping && (
+                    <path d="M38 55 Q 42 58, 46 55 M54 55 Q 58 58, 62 55"
+                        fill="none" stroke="#fff" strokeWidth="2" opacity="0.7" />
+                )}
+            </g>
         </svg>
     );
 };

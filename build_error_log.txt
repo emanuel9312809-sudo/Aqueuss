@@ -1,0 +1,28 @@
+
+> aequus-mvp@0.0.0 build
+> vite build
+
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 1921 modules transformed.
+[31mx[39m Build failed in 3.33s
+[31merror during build:
+[31m[vite-plugin-pwa:build] There was an error during the build:
+  [plugin vite:build-import-analysis] src/logic/ui-render.js (33:33): Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+Additionally, handling the error in the 'buildEnd' hook caused the following error:
+  [plugin vite:build-import-analysis] src/logic/ui-render.js (33:33): Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.[31m
+file: [36mC:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova pasta/src/logic/ui-render.js:33:33[31m
+[33m
+31:                     <stop offset="50%" stopColor="#7B2CBF" /> {/* Deep Purple */}
+32:                     <stop offset="100%" stopColor="#FF007F" /> {/* Cyber Pink */}
+33:                 </linearGradient>
+                                     ^
+34: 
+35:                 <filter id="vectorGlow" x="-50%" y="-50%" width="200%" height="200%">
+[31m
+    at getRollupError (file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/rollup/dist/es/shared/node-entry.js:23390:39
+    at async catchUnfinishedHookActions (file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/rollup/dist/es/shared/node-entry.js:22848:16)
+    at async rollupInternal (file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/rollup/dist/es/shared/node-entry.js:23373:5)
+    at async build (file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:65709:14)
+    at async CAC.<anonymous> (file:///C:/Users/emanu/.gemini/antigravity/brain/48564626-8804-4e62-b558-1fd8df1d6e86/Nova%20pasta/node_modules/vite/dist/node/cli.js:829:5)[39m
