@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useGamification } from '../context/GamificationContext';
-
-// Import Versioned Sprite Sheets (Cache Busting)
-import wolfSheetIdle from '../assets/wolf_sheet_idle_v12.png';
-import wolfSheetAlpha from '../assets/wolf_sheet_alpha_v12.png';
-import wolfSheetRest from '../assets/wolf_sheet_rest_v12.png';
+import { WolfAvatar } from '../logic/ui-render'; // Import SVG Render
 
 export default function WolfPetV2({ size = 'full', minimal = false }) {
-    // Context Safety - The Context now already uses logic-guardian.js
-    // So the data we get here (petMood) is already processed by the new logic.
-    // We just render it.
     const context = useGamification();
     const petMood = context?.petMood || 'idle';
     const petLevel = context?.petLevel || 1;
@@ -33,56 +26,43 @@ export default function WolfPetV2({ size = 'full', minimal = false }) {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    // Determine Sprite Sheet
-    const getSpriteSheet = () => {
-        if (petMood === 'sleep') return wolfSheetRest;
-        if (petMood === 'alpha') return wolfSheetAlpha;
-        return wolfSheetIdle;
-    };
-
     const handlePetClick = () => {
         setClickCount(prev => prev + 1);
 
         // Interaction Logic
         if (petMood === 'sleep') {
-            setMessage('Zzz... (Não acorde o Alpha)');
+            setMessage('Zzz... (O sistema descansa)');
             setTimeout(() => setMessage(''), 2000);
             return;
         }
 
         if (clickCount > 3) {
-            setMessage('🐺 Estou atento!');
+            setMessage('🐺 Sistemas Operacionais.');
             setTimeout(() => setMessage(''), 2000);
             setClickCount(0);
         }
     };
 
-    // --- SPRITE ANIMATION STYLES ---
-    // We assume 4 frames per sheet, 64px width per frame.
-    // background-size: 400% 100% -> 4 frames wide.
-    // animation: steps(4) -> cycles 4 frames.
-
-    const spriteStyle = {
-        width: '64px',
-        height: '64px',
-        backgroundImage: `url(${getSpriteSheet()})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: '0 0',
-        backgroundSize: '400% 100%',
-        imageRendering: 'pixelated',
-        animation: 'playStrip 1s steps(4) infinite',
-        transform: `scale(${minimal ? 1 : 3}) ${!facingRight ? 'scaleX(-1)' : ''}`,
+    // --- SVG CONTAINER STYLES ---
+    const containerStyle = {
+        width: minimal ? '50px' : '200px',
+        height: minimal ? '50px' : '200px',
+        maxWidth: '100%',
         transition: 'transform 0.2s',
-        display: 'inline-block'
+        transform: `scale(${minimal ? 0.8 : 1.2}) ${!facingRight ? 'scaleX(-1)' : ''}`, // Look at mouse
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     };
-
-    // Keyframes are now in style.css! Removing inline keyframes to respect new architecture.
 
     // Minimal View (Dashboard)
     if (minimal) {
         return (
-            <div style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={handlePetClick}>
-                <div style={spriteStyle}></div>
+            <div style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={handlePetClick}>
+                <div style={containerStyle}>
+                    <WolfAvatar mood={petMood} level={petLevel} />
+                </div>
             </div>
         );
     }
@@ -97,25 +77,25 @@ export default function WolfPetV2({ size = 'full', minimal = false }) {
 
             <div
                 style={{
-                    height: '250px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer'
+                    height: '280px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}
-                onClick={handlePetClick}
             >
-                {/* The Sprite Element */}
-                <div style={spriteStyle}></div>
+                {/* THE SVG WOLF */}
+                <div style={containerStyle} onClick={handlePetClick}>
+                    <WolfAvatar mood={petMood} level={petLevel} />
+                </div>
             </div>
 
             {/* Interaction Bubble */}
             {message && (
-                <div style={{ position: 'absolute', top: '20%', right: '10%', background: '#fff', color: '#000', padding: '5px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold', animation: 'fadeIn 0.3s' }}>
+                <div style={{ position: 'absolute', top: '20%', right: '10%', background: '#fff', color: '#000', padding: '5px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold', animation: 'fadeIn 0.3s', zIndex: 10 }}>
                     {message}
                 </div>
             )}
 
             <div style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#888', fontStyle: 'italic' }}>
-                {petMood === 'alpha' ? "O cheiro do lucro está no ar." : (petMood === 'sleep' ? "Recuperando energias..." : "Observando cada movimento.")}
+                {petMood === 'alpha' ? "Protocolo de Lucro Ativado." : (petMood === 'sleep' ? "Modo de Economia de Energia..." : "Monitorando transações.")}
             </div>
         </div>
     );
