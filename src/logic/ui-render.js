@@ -1,40 +1,39 @@
 
 // --- UI RENDER MODULE ---
 // Handles pure visual elements like SVGs to keep components clean.
+// Updated: Vector Flame Style (No Pixels, No Rects)
 
 import React from 'react';
 
 export const WolfAvatar = ({ mood, level }) => {
-    // Colors based on CSS variables
-    const primary = 'var(--accent-primary)';   // Pink
-    const secondary = 'var(--accent-secondary)'; // Cyan
-    const text = 'var(--text-primary)';
-
     // Mood variations
     const isSleeping = mood === 'sleep';
     const isAlpha = mood === 'alpha';
 
     // Animation Style (Breathing)
+    // We apply this to the main group
     const breathStyle = {
-        animation: 'wolfBreath 3s ease-in-out infinite',
-        transformOrigin: 'center bottom'
+        animation: isSleeping ? 'wolfBreath 4s ease-in-out infinite' : 'wolfBreath 2s ease-in-out infinite',
+        transformOrigin: 'center center'
     };
-
-    // Injecting keyframes locally if not in global CSS
-    // But we should put them in style.css ideally. 
-    // For now, let's rely on the refactored style.css having generic animations or add inline style for the specific svg parts.
 
     return (
         <svg
             viewBox="0 0 200 200"
             width="100%"
             height="100%"
-            style={isSleeping ? {} : breathStyle}
             xmlns="http://www.w3.org/2000/svg"
+            style={{ overflow: 'visible' }}
         >
             <defs>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <linearGradient id="wolfGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#00E5FF" /> {/* Cyan/Neon Blue */}
+                    <stop offset="50%" stopColor="#7B2CBF" /> {/* Deep Purple */}
+                    <stop offset="100%" stopColor="#FF007F" /> {/* Cyber Pink */}
+                </linearGradient>
+
+                <filter id="vectorGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
                     <feMerge>
                         <feMergeNode in="coloredBlur" />
                         <feMergeNode in="SourceGraphic" />
@@ -42,39 +41,45 @@ export const WolfAvatar = ({ mood, level }) => {
                 </filter>
             </defs>
 
-            {/* --- BASE HEAD SHAPE (Geometric) --- */}
-            <path
-                d="M100 180 L60 140 L40 80 L60 40 L100 60 L140 40 L160 80 L140 140 Z"
-                fill="none"
-                stroke={isAlpha ? primary : secondary}
-                strokeWidth="4"
-                filter="url(#glow)"
-            />
+            <g style={breathStyle}>
+                {/* --- FLUID WOLF SILHOUETTE --- */}
+                {/* Drawn with bezier curves for a smooth, organic 'flame' look */}
+                <path
+                    d="M100 180 
+                       C 80 180, 50 160, 40 120 
+                       C 35 100, 20 80, 40 60 
+                       C 50 50, 60 80, 70 90 
+                       C 75 70, 60 30, 80 20 
+                       C 95 15, 105 15, 120 20 
+                       C 140 30, 125 70, 130 90 
+                       C 140 80, 150 50, 160 60 
+                       C 180 80, 165 100, 160 120 
+                       C 150 160, 120 180, 100 180 Z"
+                    fill="url(#wolfGradient)"
+                    filter="url(#vectorGlow)"
+                    stroke="none"
+                />
 
-            {/* --- EARS --- */}
-            <path d="M60 40 L50 10 L80 30" fill="none" stroke={secondary} strokeWidth="3" />
-            <path d="M140 40 L150 10 L120 30" fill="none" stroke={secondary} strokeWidth="3" />
-
-            {/* --- EYES (Cyber) --- */}
-            {isSleeping ? (
-                <g stroke={text} strokeWidth="3">
-                    <line x1="70" y1="90" x2="90" y2="90" />
-                    <line x1="110" y1="90" x2="130" y2="90" />
-                </g>
-            ) : (
-                <g fill={isAlpha ? primary : secondary} filter="url(#glow)">
-                    <polygon points="70,90 90,85 80,100" />
-                    <polygon points="130,90 110,85 120,100" />
-                </g>
-            )}
-
-            {/* --- SNOUT --- */}
-            <path d="M90 130 L100 140 L110 130" fill="none" stroke={text} strokeWidth="2" />
-
-            {/* --- DETAILS (Circuit Lines) --- */}
-            <path d="M100 60 L100 100" fill="none" stroke={secondary} strokeWidth="1" opacity="0.5" />
-            <path d="M40 80 L60 80" fill="none" stroke={secondary} strokeWidth="1" opacity="0.5" />
-            <path d="M160 80 L140 80" fill="none" stroke={secondary} strokeWidth="1" opacity="0.5" />
+                {/* --- EYES --- */}
+                {isSleeping ? (
+                    // Closed Eyes (Curved Lines)
+                    <path d="M70 110 Q 80 120, 90 110 M110 110 Q 120 120, 130 110"
+                        fill="none"
+                        stroke="#fff"
+                        strokeWidth="3"
+                        strokeLinecap="round" />
+                ) : (
+                    // Open Eyes (Sharp/Alpha)
+                    <g>
+                        <path d="M65 105 Q 80 95, 95 105" fill="none" stroke="#fff" strokeWidth={isAlpha ? "4" : "3"} strokeLinecap="round" />
+                        <path d="M105 105 Q 120 95, 135 105" fill="none" stroke="#fff" strokeWidth={isAlpha ? "4" : "3"} strokeLinecap="round" />
+                        {/* Pupils if Alpha */}
+                        {isAlpha && (
+                            <path d="M80 102 L80 108 M120 102 L120 108" stroke="#00E5FF" strokeWidth="3" />
+                        )}
+                    </g>
+                )}
+            </g>
 
         </svg>
     );
