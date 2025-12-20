@@ -1,5 +1,5 @@
 
-// --- GUARDIAN (WOLF) LOGIC MODULE ---
+// --- GUARDIAN (WOLF/COIN) LOGIC MODULE ---
 // Handles Pet XP, Mood, interactions and level progression.
 
 // --- CONFIG ---
@@ -26,19 +26,47 @@ export const calculateLevel = (xp) => {
 
 export const calculateNextLevelXP = (level) => {
     try {
-        const index = level; // safe index since level 1 is index 0 in thresholds array? No, level 1 starts at 0.
-        // If level is 1, next threshold is index 1 (100).
+        const index = level;
         if (index >= LEVEL_THRESHOLDS.length) return LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1] * 1.5;
         return LEVEL_THRESHOLDS[index];
     } catch (error) {
         console.error("Guardian Logic Error (calculateNextLevelXP):", error);
         return 1000;
     }
-}
+};
+
+export const calculateLevelBonus = (level) => {
+    // New Feature: Level Up Bonus for the Vault
+    // Currently fixed at 10€ per level
+    return 10;
+};
+
+// --- MISSION SYSTEM ---
+export const getInitialMissions = () => {
+    return [
+        // Daily
+        { id: 'daily-1', type: 'daily', desc: 'Registar 1 venda', xp: 50, completed: false },
+        { id: 'daily-2', type: 'daily', desc: 'Abrir a app hoje', xp: 20, completed: false },
+
+        // Weekly
+        { id: 'weekly-1', type: 'weekly', desc: 'Manter lucro > 20%', xp: 200, completed: false },
+        { id: 'weekly-2', type: 'weekly', desc: 'Poupar 50€ (Buckets)', xp: 150, completed: false },
+
+        // Achievements (Legacy/Long Term)
+        { id: 'ach-1', type: 'achievement', desc: 'Alcançar o Nível 5', xp: 500, completed: false },
+        { id: 'ach-2', type: 'achievement', desc: 'Total de 1000€ em vendas', xp: 1000, completed: false },
+        { id: 'ach-3', type: 'achievement', desc: 'Primeiros 100€ lucro líquido', xp: 300, completed: false },
+    ];
+};
 
 export const determineMood = (xp, lastInteractionTime) => {
     try {
         const now = Date.now();
+        const hour = new Date().getHours();
+
+        // Sleep logic
+        if (hour >= 22 || hour < 6) return 'sleep';
+
         const hoursSinceInteraction = (now - lastInteractionTime) / (1000 * 60 * 60);
 
         if (hoursSinceInteraction > 24) return 'sleep'; // Sleeps if ignored for 24h
@@ -67,7 +95,7 @@ export const processInteraction = (currentXP, type) => {
                 break;
             case 'sale':
                 xpGain = 100;
-                message = "Lucro! A Alcateia cresce."; // Wolf Pack grows
+                message = "Lucro! A Alcateia cresce.";
                 break;
             default:
                 xpGain = 0;
@@ -82,4 +110,4 @@ export const processInteraction = (currentXP, type) => {
         console.error("Guardian Logic Error (processInteraction):", error);
         return { newXP: currentXP, message: "..." };
     }
-}
+};
