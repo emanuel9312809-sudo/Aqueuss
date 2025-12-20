@@ -7,7 +7,7 @@ export default function TransactionList() {
   // Helper to get bucket icon
   const getIcon = (bucketId) => {
       const b = buckets.find(b => b.id === bucketId);
-      return b ? b.icon : '??';
+      return b ? b.icon : '🧾';
   };
 
   return (
@@ -30,7 +30,7 @@ export default function TransactionList() {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ fontSize: '1.2rem' }}>
-                    {tx.type === 'INCOME' ? '??' : getIcon(tx.bucketId)}
+                    {tx.type === 'INCOME' ? '💰' : getIcon(tx.bucketId)}
                 </span>
                 <div>
                   <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: '500' }}>{tx.category}</div>

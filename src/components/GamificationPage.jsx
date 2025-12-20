@@ -1,98 +1,88 @@
-import { Trophy, Medal, Star, TrendingUp, CheckCircle, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Trophy, Star, Target, Zap } from 'lucide-react';
 import { useGamification } from '../context/GamificationContext';
-
-// Icon Helper
-const PiggyBankIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2.5V5z"></path>
-        <path d="M2 9v1c0 1.1.9 2 2 2h1"></path>
-        <path d="M16 11h.01"></path>
-    </svg>
-);
+import WolfPet from './WolfPetV2';
+import WolfStore from './WolfStore';
 
 export default function GamificationPage() {
-  const { userStats, missions } = useGamification(); 
-
-  const badges = [
-    { id: 1, name: 'Iniciante', icon: <Star size={24} />, unlocked: true, desc: 'Começou a jornada' },
-    { id: 2, name: 'Poupador', icon: <PiggyBankIcon />, unlocked: userStats.level >= 2, desc: 'Atingiu o Nível 2' },
-    { id: 3, name: 'Mestre', icon: <Trophy size={24} />, unlocked: userStats.level >= 5, desc: 'Atingiu o Nível 5' },
-  ];
-
-  const progressPercent = Math.min((userStats.xp / userStats.nextLevel) * 100, 100);
+  const [showStore, setShowStore] = useState(false);
+  const { userStats, missions, checkMissions } = useGamification();
 
   return (
-    <div className="glass-panel" style={{ width: '100%', padding: '1.5rem', marginBottom: '80px' }}>
+    <div style={{ paddingBottom: '80px' }}>
       
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#FFD700', marginBottom: '0.5rem' }}>Aequus Quest</h2>
+      {/* THE DEN (Wolf Section) */}
+      <div style={{ marginBottom: '-20px' }}>
+          <WolfPet size="full" />
+          <div style={{ textAlign: 'center', marginTop: '-20px', marginBottom: '20px', position: 'relative', zIndex: 10 }}>
+              <button onClick={() => setShowStore(true)} style={{ background: 'linear-gradient(135deg, #FFD700, #FFA500)', border: 'none', padding: '8px 16px', borderRadius: '20px', color: '#000', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  🛍️ Acessórios
+              </button>
+          </div>
+          {showStore && <WolfStore onClose={() => setShowStore(false)} />}
+      </div>
+
+      <div className="glass-panel" style={{ width: '100%', padding: '1.5rem', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+          <div>
+            <div style={{ color: '#888', fontSize: '0.9rem' }}>Nível Atual</div>
+            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-primary)' }}>{userStats.level}</div>
+          </div>
+          <Trophy size={40} color="var(--accent-primary)" />
+        </div>
         
-        <div style={{ 
-            width: '100px', height: '100px', borderRadius: '50%', 
-            background: 'linear-gradient(135deg, #FFD700 0%, #FFAA00 100%)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 1rem auto', boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
-            color: '#000'
-        }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>NÍVEL</span>
-            <span style={{ fontSize: '3rem', fontWeight: 'bold', lineHeight: '1' }}>{userStats.level}</span>
+        <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+          <span>XP {userStats.xp}</span>
+          <span>{userStats.nextLevel} XP</span>
         </div>
-
-        <div style={{ background: 'rgba(255,255,255,0.1)', height: '10px', borderRadius: '5px', overflow: 'hidden', maxWidth: '300px', margin: '0 auto' }}>
-            <div style={{ 
-                width: `${progressPercent}%`, 
-                height: '100%', 
-                background: '#00E5FF',
-                transition: 'width 0.5s ease'
-            }}></div>
-        </div>
-        <div style={{ fontSize: '0.8rem', color: '#aaa', marginTop: '5px' }}>
-            XP: {userStats.xp} / {userStats.nextLevel}
+        
+        {/* Progress Bar */}
+        <div style={{ width: '100%', height: '8px', background: '#333', borderRadius: '4px', overflow: 'hidden' }}>
+          <div style={{ 
+            width: `${(userStats.xp / userStats.nextLevel) * 100}%`, 
+            height: '100%', 
+            background: 'var(--accent-primary)',
+            transition: 'width 0.5s ease'
+          }} />
         </div>
       </div>
 
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Zap size={20} color="#00E5FF" /> Missões Ativas
+      <h3 style={{ marginBottom: '1rem', color: '#fff', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Target size={20} /> Missões Diárias
       </h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-          {missions.map(mission => (
-              <div key={mission.id} style={{ 
-                  background: 'rgba(255,255,255,0.05)', 
-                  padding: '1rem', 
-                  borderRadius: '12px',
-                  border: mission.completed ? '1px solid #4BC0C0' : '1px solid rgba(255,255,255,0.1)',
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                  <div style={{ opacity: mission.completed ? 0.5 : 1 }}>
-                      <div style={{ fontWeight: 'bold', color: '#fff' }}>{mission.desc}</div>
-                      <div style={{ fontSize: '0.8rem', color: '#00E5FF' }}>+{mission.xp} XP</div>
-                  </div>
-                  <div>
-                      {mission.completed ? <CheckCircle color="#4BC0C0" /> : <span style={{ fontSize: '1.5rem' }}>⏳</span>}
-                  </div>
-              </div>
-          ))}
-      </div>
 
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Conquistas</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-        {badges.map(badge => (
-          <div key={badge.id} style={{ 
-            background: 'rgba(255,255,255,0.05)', 
-            borderRadius: '12px', 
-            padding: '1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.5rem',
-            opacity: badge.unlocked ? 1 : 0.4,
-            border: badge.unlocked ? '1px solid rgba(255, 215, 0, 0.3)' : 'none'
-          }}>
-            <div style={{ color: badge.unlocked ? '#FFD700' : '#666' }}>{badge.icon}</div>
-            <div style={{ fontWeight: 'bold', fontSize: '0.8rem', textAlign: 'center' }}>{badge.name}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {missions.filter(m => m.type === 'daily').map(mission => (
+          <div key={mission.id} className="glass-panel" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: mission.completed ? '4px solid #4caf50' : '4px solid #333' }}>
+            <div style={{ background: mission.completed ? 'rgba(76, 175, 80, 0.2)' : 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '50%' }}>
+              {mission.completed ? <Star size={20} color="#4caf50" fill="#4caf50" /> : <Star size={20} color="#666" />}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 'bold', color: mission.completed ? '#fff' : '#aaa', textDecoration: mission.completed ? 'line-through' : 'none' }}>{mission.desc}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--accent-primary)' }}>+{mission.xp} XP</div>
+            </div>
           </div>
         ))}
       </div>
+      
+      <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: '#fff', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Zap size={20} /> Desafios Semanais
+      </h3>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {missions.filter(m => m.type === 'weekly').map(mission => (
+          <div key={mission.id} className="glass-panel" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem', opacity: 0.7 }}>
+             <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '50%' }}>
+               <Trophy size={20} color="#666" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 'bold', color: '#aaa' }}>{mission.desc}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--accent-primary)' }}>+{mission.xp} XP</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 }

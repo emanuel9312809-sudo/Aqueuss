@@ -1,0 +1,4 @@
+1. NUNCA apagues funções de economia ou gestão sem autorização explícita.
+2. Todas as mensagens devem usar codificação UTF-8 (corrige o erro 'ExperiÃªncias' para 'Experiências').
+3. Sempre que o código for muito longo, sugere a criação de um novo ficheiro .js em vez de o resumir.
+4. Adiciona blocos try-catch em todas as funções do Lobo para garantir que falhas no pet não bloqueiem os teus registos de vendas.

@@ -6,9 +6,9 @@ const WalletContext = createContext();
 export const useWallet = () => useContext(WalletContext);
 
 const DEFAULT_BUCKETS = [
-  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '??', type: 'survival' },
-  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: '??', type: 'leisure' },
-  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: '??', type: 'evolution' },
+  { id: 'needs', name: 'Necessidades', target: 50, color: '#4BC0C0', icon: '💰', type: 'survival' },
+  { id: 'wants', name: 'Lazer', target: 30, color: '#FF9F40', icon: '💰', type: 'leisure' },
+  { id: 'savings', name: 'Investimentos', target: 20, color: '#36A2EB', icon: '💰', type: 'evolution' },
 ];
 
 const DEFAULT_ACCOUNTS = [
@@ -111,13 +111,13 @@ export const WalletProvider = ({ children }) => {
     setTransactions(prev => prev.filter(t => t.id !== id));
   };
 
-  const addBucket = (name, target, type = 'survival') => {
+  const addBucket = (name, target, type = 'survival', icon = '💰') => {
       const newBucket = { 
           id: Date.now().toString(), 
           name, 
           target: Number(target), 
           color: '#' + Math.floor(Math.random()*16777215).toString(16), 
-          icon: '??',
+          icon: '💰',
           type 
       };
       setBuckets(prev => [...prev, newBucket]);

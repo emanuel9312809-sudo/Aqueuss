@@ -1,0 +1,74 @@
+
+/* --- AEQUUS CENTRAL STYLESHEET --- */
+/* Ensures Dark Mode consistency and fluid transitions */
+
+:root {
+    /* -- Colors -- */
+    --bg-primary: #0a0e17;
+    --bg-secondary: #1a1f2e;
+    --text-primary: #ffffff;
+    --text-secondary: #8899a6;
+    --accent-primary: #ff007f; /* Cyberpunk Pink */
+    --accent-secondary: #00e5ff; /* Cyan */
+    --success: #32d74b;
+    --danger: #ff3b30;
+    
+    /* -- Typography -- */
+    --font-main: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- UTILITIES --- */
+.glass-panel {
+    background: rgba(26, 31, 46, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- ANIMATIONS --- */
+.page-transition {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- WOLF ANIMATIONS --- */
+/* These keyframes support the WolfPetV2 component */
+@keyframes playStrip {
+    0% { background-position: 0 0; }
+    100% { background-position: -400% 0; } 
+}
+
+/* --- FIXES --- */
+/* Ensure emoji and text align properly */
+span, div, p {
+    line-height: 1.5;
+}
+
+/* Mobile optimizations */
+@media (max-width: 600px) {
+    .glass-panel {
+        border-radius: 12px;
+    }
+}

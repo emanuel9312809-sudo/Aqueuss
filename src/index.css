@@ -24,6 +24,17 @@
   --glass-border: rgba(0, 0, 0, 0.1);
 }
 
+
+[data-theme='oled'] {
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  /* Accent is dynamic */
+  --glass-bg: rgba(20, 20, 20, 0.5); 
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
 html, body {
   overflow-x: hidden;
   width: 100%;
