@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
 import TransitionWrapper from './components/TransitionWrapper';
 import { HashRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -23,7 +23,67 @@ import GamificationPage from './components/GamificationPage';
 import AccountsPage from './components/AccountsPage';
 
 // Icons
-import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet, User, Briefcase, Package, Users } from 'lucide-react';
+import { LayoutDashboard, Target, Settings, Trophy, PlusCircle, Wallet, User, Briefcase, Package, Users, RefreshCw } from 'lucide-react';
+
+// --- VERSION CHECKER COMPONENT ---
+const VersionToast = () => {
+    const CURRENT_VERSION = '1.25.0';
+    const [showUpdate, setShowUpdate] = useState(false);
+
+    useEffect(() => {
+        const checkVersion = () => {
+            // Simple check: if we change this constant, the logic below acts as a "new version available" trigger relative to user perception
+            // In a real PWA this would listen to SW updates.
+            // Here we use a session storage flag to simulate "first load check" or just always show for this deploy.
+
+            // For this specific "Force Update" task, let's show it if they haven't acknowledged it.
+            const acknowledged = sessionStorage.getItem('v1.25.0_ack');
+            if (!acknowledged) {
+                setShowUpdate(true);
+            }
+        };
+
+        // Wait a sec to not block UI
+        setTimeout(checkVersion, 2000);
+    }, []);
+
+    const handleUpdate = () => {
+        sessionStorage.setItem('v1.25.0_ack', 'true');
+        window.location.reload(true);
+    };
+
+    if (!showUpdate) return null;
+
+    return (
+        <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            style={{
+                position: 'fixed', bottom: '90px', right: '20px', left: '20px',
+                background: '#333', border: '1px solid var(--accent-primary)',
+                padding: '1rem', borderRadius: '12px', zIndex: 9999,
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
+            }}
+        >
+            <div>
+                <div style={{ fontWeight: 'bold', color: '#fff' }}>Nova Versão Disponível!</div>
+                <div style={{ fontSize: '0.8rem', color: '#aaa' }}>v{CURRENT_VERSION}</div>
+            </div>
+            <button
+                onClick={handleUpdate}
+                style={{
+                    background: 'var(--accent-primary)', color: '#000',
+                    border: 'none', padding: '8px 16px', borderRadius: '8px',
+                    fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px'
+                }}
+            >
+                <RefreshCw size={16} /> Atualizar
+            </button>
+        </motion.div>
+    );
+};
+
 
 const Navigation = ({ mode }) => {
     const navigate = useNavigate();
@@ -105,7 +165,7 @@ const Navigation = ({ mode }) => {
 
 const AppContent = () => {
     const [appMode, setAppMode] = useState('personal');
-    const { bonusVault } = useGamification() || { bonusVault: 0 }; // Fallback for initial render/context safety
+    const { bonusVault } = useGamification() || { bonusVault: 0 }; // Fallback
 
     const toggleMode = () => {
         if (appMode === 'personal') {
@@ -128,9 +188,6 @@ const AppContent = () => {
 
     // Update direction when navigating manually
     const handleNavigate = (path) => {
-        // Automatic via existing logic or forced? 
-        // Handled by useEffect mainly or direct usage.
-        // But we need to update state if we want click animations too.
         const newIndex = currentTabs.indexOf(path);
         const oldIndex = currentTabs.indexOf(location.pathname);
         if (newIndex !== -1 && oldIndex !== -1) {
@@ -141,7 +198,6 @@ const AppContent = () => {
 
     const handlers = useSwipeable({
         onSwipedLeft: (eventData) => {
-            // Prevent swipe if horizontal scroll is detected or on specific elements
             if (eventData.event.target.closest('.nodrag, input, select')) return;
 
             const currentIndex = currentTabs.indexOf(location.pathname);
@@ -197,7 +253,7 @@ const AppContent = () => {
                                 borderRadius: '4px',
                                 border: '1px solid var(--accent-primary)'
                             }}>
-                                v1.20.0
+                                v1.25.0
                             </span>
                             {/* VAULT DISPLAY IN HEADER */}
                             <div style={{ fontSize: '0.8rem', color: '#FFD700', border: '1px solid #FFD700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(255, 215, 0, 0.1)' }}>
@@ -246,6 +302,7 @@ const AppContent = () => {
             </div>
 
             <Navigation mode={appMode} />
+            <VersionToast />
 
         </div>
     );

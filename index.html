@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
+    <script>
+      // SERVICE WORKER KILLER (Hard Reset)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) { 
+             console.log('Unregistering SW:', registration);
+             registration.unregister(); 
+          }
+        });
+      }
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/icon-512.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a1a1a" />
-    <title>Aequus Financial Coach v1.20.0</title>
+    <title>Aequus Financial Coach v1.25.0</title>
     <style>
-        body {
-            background-color: #1a1a1a;
-        }
+      body { background-color: #1a1a1a; }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx?v=1.20.0"></script>
-</body>
-
+    <script type="module" src="/src/main.jsx?v=1.25.0"></script>
+  </body>
 </html>
