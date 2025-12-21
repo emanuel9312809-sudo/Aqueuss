@@ -16,9 +16,10 @@ export const useGamification = () => useContext(GamificationContext);
 
 export const GamificationProvider = ({ children }) => {
     // -- STATE MANAGEMENT (Modular Persistance) --
-    const [userStats, setUserStats] = usePersistentState('aequus_stats', { level: 1, xp: 0, nextLevel: 100 });
-    const [missions, setMissions] = usePersistentState('aequus_missions', getInitialMissions());
-    const [bonusVault, setBonusVault] = usePersistentState('aequus_bonus_vault', 0); // New Feature
+    // UPDATED KEYS FOR v1.20.0 TO FORCE RESET
+    const [userStats, setUserStats] = usePersistentState('aequus_stats_v120', { level: 1, xp: 0, nextLevel: 100 });
+    const [missions, setMissions] = usePersistentState('aequus_missions_v120', getInitialMissions());
+    const [bonusVault, setBonusVault] = usePersistentState('aequus_bonus_vault_v120', 0); // New Feature
 
     // -- Wolf Pet State --
     const [petMood, setPetMood] = useState('idle');

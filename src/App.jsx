@@ -6,7 +6,7 @@ import { HashRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'r
 import { ThemeProvider } from './context/ThemeContext';
 import { WalletProvider } from './context/WalletContext';
 import { InventoryProvider } from './context/InventoryContext';
-import { GamificationProvider } from './context/GamificationContext';
+import { GamificationProvider, useGamification } from './context/GamificationContext';
 
 // Components
 import BusinessDashboard from './components/business/BusinessDashboard';
@@ -105,6 +105,8 @@ const Navigation = ({ mode }) => {
 
 const AppContent = () => {
     const [appMode, setAppMode] = useState('personal');
+    const { bonusVault } = useGamification() || { bonusVault: 0 }; // Fallback for initial render/context safety
+
     const toggleMode = () => {
         if (appMode === 'personal') {
             setAppMode('business');
@@ -186,16 +188,22 @@ const AppContent = () => {
                     </div>
                     <div>
                         <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: '1.1' }}>Aequus</h1>
-                        <span style={{
-                            fontSize: '0.7rem',
-                            background: 'var(--glass-bg)',
-                            color: 'var(--accent-primary)',
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            border: '1px solid var(--accent-primary)'
-                        }}>
-                            v1.16.0
-                        </span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <span style={{
+                                fontSize: '0.7rem',
+                                background: 'var(--glass-bg)',
+                                color: 'var(--accent-primary)',
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                border: '1px solid var(--accent-primary)'
+                            }}>
+                                v1.20.0
+                            </span>
+                            {/* VAULT DISPLAY IN HEADER */}
+                            <div style={{ fontSize: '0.8rem', color: '#FFD700', border: '1px solid #FFD700', padding: '2px 8px', borderRadius: '12px', background: 'rgba(255, 215, 0, 0.1)' }}>
+                                Cofre: {bonusVault || 0} €
+                            </div>
+                        </div>
                     </div>
                 </div>
 
